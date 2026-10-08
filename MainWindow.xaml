@@ -1,0 +1,334 @@
+<Window x:Class="TimelapseConverter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TimeLapse Converter"
+        Width="1120" Height="800" MinWidth="960" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="13"
+        TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True"
+        AllowDrop="True"
+        Icon="Assets/app.ico"
+        DragEnter="Window_DragEnter" DragOver="Window_DragOver"
+        DragLeave="Window_DragLeave" Drop="Window_Drop">
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="Taskbar"/>
+    </Window.TaskbarItemInfo>
+
+    <Grid>
+        <Grid Margin="28,20,28,24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- ───────── 헤더 ───────── -->
+            <DockPanel Margin="0,0,0,18">
+                <Button x:Name="SettingsButton" DockPanel.Dock="Right" Style="{StaticResource SecondaryButton}"
+                        VerticalAlignment="Center" Margin="10,0,0,0" Padding="14,7" Click="Settings_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE713;" Style="{StaticResource Icon}"/>
+                        <TextBlock Text="설정" Margin="7,0,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Border x:Name="EnginePill" DockPanel.Dock="Right" Style="{StaticResource Pill}"
+                        VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonUp="EnginePill_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="EngineDot" Width="8" Height="8" VerticalAlignment="Center"
+                                 Fill="{StaticResource TextMutedBrush}"/>
+                        <TextBlock x:Name="EngineText" Margin="8,0,0,0" FontSize="12"
+                                   Foreground="{StaticResource TextSecondaryBrush}" Text="FFmpeg 확인 중…"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Width="40" Height="40" CornerRadius="11" Background="{StaticResource AccentBrush}">
+                        <Path Data="{StaticResource FastForwardGeometry}" Fill="White"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0"/>
+                    </Border>
+                    <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                        <TextBlock FontSize="21" FontWeight="Bold">
+                            <Run Text="TimeLapse"/> <Run Text="Converter" Foreground="{StaticResource AccentBrush}"/>
+                        </TextBlock>
+                        <TextBlock Text="긴 녹화 영상을 원하는 배속의 타임랩스로 줄여줍니다"
+                                   FontSize="12" Foreground="{StaticResource TextMutedBrush}" Margin="0,1,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="18"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ───────── 왼쪽: 녹화 파일 ───────── -->
+                <ContentControl Style="{StaticResource Card}">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="녹화 파일" Style="{StaticResource CardTitle}"/>
+
+                        <Border DockPanel.Dock="Top" Style="{StaticResource PathBar}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="&#xE8B7;" Style="{StaticResource Icon}" Foreground="{StaticResource TextMutedBrush}"/>
+                                <TextBlock x:Name="SourceFolderText" Grid.Column="1" Margin="9,0,8,0" VerticalAlignment="Center"
+                                           FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" TextTrimming="CharacterEllipsis"/>
+                                <Button x:Name="ChangeSourceButton" Grid.Column="2" Style="{StaticResource GhostButton}"
+                                        Content="변경" Click="ChangeSourceFolder_Click" ToolTip="녹화 폴더 변경"/>
+                                <Button x:Name="RefreshButton" Grid.Column="3" Style="{StaticResource GhostButton}" Margin="6,0,0,0"
+                                        Click="RefreshFiles_Click" ToolTip="새로고침">
+                                    <TextBlock Text="&#xE72C;" Style="{StaticResource Icon}" FontSize="12"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <Grid DockPanel.Dock="Bottom" Margin="0,14,0,0">
+                            <Button x:Name="OpenFileButton" Style="{StaticResource SecondaryButton}" HorizontalAlignment="Left"
+                                    Click="OpenFile_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8E5;" Style="{StaticResource Icon}"/>
+                                    <TextBlock Text="다른 파일 열기…" Margin="8,0,0,0"/>
+                                </StackPanel>
+                            </Button>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11.5"
+                                       Foreground="{StaticResource TextMutedBrush}" Text="영상 파일을 창에 끌어다 놓아도 됩니다"/>
+                        </Grid>
+
+                        <Border x:Name="SelectedInfo" DockPanel.Dock="Bottom" Style="{StaticResource SuccessBox}"
+                                Margin="0,12,0,0" Visibility="Collapsed">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="SelectedIconBg" Width="30" Height="30" CornerRadius="15" VerticalAlignment="Top"
+                                        Background="{StaticResource SuccessBrush}">
+                                    <TextBlock x:Name="SelectedIcon" Text="&#xE73E;" Style="{StaticResource Icon}" Foreground="White"
+                                               FontSize="13" HorizontalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock x:Name="SelectedName" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock x:Name="SelectedMeta" FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Grid Margin="0,12,0,0">
+                            <ListBox x:Name="FileList" Style="{StaticResource FileListBox}"
+                                     ItemContainerStyle="{StaticResource FileItem}"
+                                     SelectionChanged="FileList_SelectionChanged">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="36" Height="36" CornerRadius="9" Background="{StaticResource AccentSoftBrush}">
+                                                <TextBlock Text="&#xE714;" Style="{StaticResource Icon}" FontSize="15"
+                                                           Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center"/>
+                                            </Border>
+                                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock Text="{Binding Meta}" FontSize="11.5" Margin="0,2,0,0"
+                                                           Foreground="{StaticResource TextMutedBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock x:Name="EmptyListText" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       TextAlignment="Center" LineHeight="20" Visibility="Collapsed"
+                                       Foreground="{StaticResource TextMutedBrush}"/>
+                        </Grid>
+                    </DockPanel>
+                </ContentControl>
+
+                <!-- ───────── 오른쪽 ───────── -->
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+
+                        <!-- 배속 설정 -->
+                        <ContentControl Style="{StaticResource Card}">
+                            <StackPanel>
+                                <DockPanel>
+                                    <Border DockPanel.Dock="Right" Style="{StaticResource SpeedBadge}">
+                                        <TextBlock x:Name="SpeedBadgeText" Text="x1" Foreground="White" FontWeight="Bold" FontSize="15"/>
+                                    </Border>
+                                    <TextBlock Text="배속 설정" Style="{StaticResource CardTitle}" Margin="0" VerticalAlignment="Center"/>
+                                </DockPanel>
+
+                                <Slider x:Name="SpeedSlider" Style="{StaticResource SpeedSlider}" Margin="0,18,0,0"
+                                        Minimum="0" Maximum="12" TickFrequency="1" IsSnapToTickEnabled="True"
+                                        IsMoveToPointEnabled="True" SmallChange="1" LargeChange="1"
+                                        ValueChanged="SpeedSlider_ValueChanged"/>
+                                <Canvas x:Name="TickCanvas" Height="18" Margin="0,4,0,0" SizeChanged="TickCanvas_SizeChanged"/>
+
+                                <Grid Margin="0,14,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Style="{StaticResource StatBox}">
+                                        <StackPanel>
+                                            <TextBlock Text="원본 길이" Style="{StaticResource StatLabel}"/>
+                                            <TextBlock x:Name="OriginalDurationText" Text="--" Style="{StaticResource StatValue}"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2" Style="{StaticResource StatBox}"
+                                            Background="{StaticResource AccentSoftBrush}" BorderBrush="{StaticResource AccentSoftLineBrush}">
+                                        <StackPanel>
+                                            <TextBlock Text="예상 출력 길이" Style="{StaticResource StatLabel}"/>
+                                            <TextBlock x:Name="OutputDurationText" Text="--" Style="{StaticResource StatValue}"
+                                                       Foreground="{StaticResource AccentBrush}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                                <DockPanel x:Name="EstimateRow" Margin="0,14,0,0" Visibility="Collapsed">
+                                    <Border x:Name="ModeChip" DockPanel.Dock="Right" Style="{StaticResource Chip}" Cursor="Help">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE945;" Style="{StaticResource Icon}" FontSize="11"
+                                                       Foreground="{StaticResource AccentBrush}"/>
+                                            <TextBlock x:Name="ModeText" Margin="5,0,0,0" FontSize="11.5" FontWeight="SemiBold"
+                                                       Foreground="{StaticResource AccentBrush}"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xE823;" Style="{StaticResource Icon}" Foreground="{StaticResource TextMutedBrush}"/>
+                                        <TextBlock Margin="8,0,0,0" FontSize="12.5" Foreground="{StaticResource TextSecondaryBrush}"
+                                                   ToolTip="PC 사양과 영상에 따라 실제 시간은 다를 수 있습니다">
+                                            <Run Text="예상 작업 시간"/> <Run x:Name="EstimateText" Text="--" FontWeight="SemiBold"
+                                                                         Foreground="{StaticResource TextBrush}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
+                            </StackPanel>
+                        </ContentControl>
+
+                        <!-- 저장 위치 -->
+                        <ContentControl Style="{StaticResource Card}" Margin="0,16,0,0">
+                            <StackPanel>
+                                <TextBlock Text="저장 위치" Style="{StaticResource CardTitle}"/>
+                                <Border Style="{StaticResource PathBar}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="&#xE838;" Style="{StaticResource Icon}" Foreground="{StaticResource AccentBrush}"/>
+                                        <TextBlock x:Name="OutputFolderText" Grid.Column="1" Margin="9,0,8,0" VerticalAlignment="Center"
+                                                   FontSize="12" TextTrimming="CharacterEllipsis"/>
+                                        <Button x:Name="ChangeOutputButton" Grid.Column="2" Style="{StaticResource GhostButton}"
+                                                Content="변경" Click="ChangeOutputFolder_Click" ToolTip="저장 폴더 변경"/>
+                                        <Button Grid.Column="3" Style="{StaticResource GhostButton}" Margin="6,0,0,0"
+                                                Content="열기" Click="OpenOutputFolder_Click" ToolTip="탐색기에서 열기"/>
+                                    </Grid>
+                                </Border>
+
+                                <DockPanel Margin="2,12,0,0">
+                                    <TextBlock Text="파일명" Width="50" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
+                                    <TextBlock x:Name="OutputNameText" FontSize="12" TextTrimming="CharacterEllipsis"
+                                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                                </DockPanel>
+                            </StackPanel>
+                        </ContentControl>
+
+                        <!-- 실행 -->
+                        <ContentControl Style="{StaticResource Card}" Margin="0,16,0,0">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button x:Name="PreviewButton" Style="{StaticResource SecondaryButton}" Padding="14,12"
+                                            IsEnabled="False" Click="Preview_Click"
+                                            ToolTip="앞부분을 실제 배속으로 짧게 변환해서 보여줍니다">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE768;" Style="{StaticResource Icon}"/>
+                                            <TextBlock Text="미리보기" Margin="8,0,0,0" FontSize="14" FontWeight="SemiBold"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="ConvertButton" Grid.Column="2" Style="{StaticResource PrimaryButton}"
+                                            IsEnabled="False" Click="Convert_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE945;" Style="{StaticResource Icon}"/>
+                                            <TextBlock Text="변환 시작" Margin="8,0,0,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button x:Name="CancelButton" Grid.ColumnSpan="3" Style="{StaticResource DangerButton}"
+                                            Visibility="Collapsed" Click="Cancel_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="&#xE711;" Style="{StaticResource Icon}"/>
+                                            <TextBlock Text="작업 취소" Margin="8,0,0,0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </Grid>
+
+                                <StackPanel x:Name="ProgressPanel" Margin="0,16,0,0" Visibility="Collapsed">
+                                    <DockPanel Margin="0,0,0,8">
+                                        <TextBlock x:Name="ProgressTimeText" DockPanel.Dock="Right" FontSize="12"
+                                                   Foreground="{StaticResource TextMutedBrush}"/>
+                                        <TextBlock x:Name="ProgressText" FontSize="12.5" FontWeight="SemiBold"/>
+                                    </DockPanel>
+                                    <ProgressBar x:Name="Progress" Style="{StaticResource ConvertProgress}" Minimum="0" Maximum="100"/>
+                                    <TextBlock x:Name="ProgressNoteText" Margin="0,8,0,0" FontSize="12" TextWrapping="Wrap"
+                                               Foreground="{StaticResource WarningBrush}" Visibility="Collapsed"/>
+                                </StackPanel>
+
+                                <Border x:Name="ResultPanel" Style="{StaticResource SuccessBox}" Margin="0,16,0,0" Visibility="Collapsed">
+                                    <DockPanel>
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Button Style="{StaticResource GhostButton}" Content="폴더에서 보기" Click="RevealOutput_Click"/>
+                                            <Button Style="{StaticResource GhostButton}" Content="재생" Margin="6,0,0,0" Click="PlayOutput_Click"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <TextBlock x:Name="ResultTitle" FontWeight="SemiBold" Foreground="{StaticResource SuccessBrush}"
+                                                       Text="변환 완료"/>
+                                            <TextBlock x:Name="ResultPath" FontSize="12" Margin="0,3,10,0" TextTrimming="CharacterEllipsis"
+                                                       Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            <TextBlock x:Name="ResultMeta" FontSize="11.5" Margin="0,2,10,0"
+                                                       Foreground="{StaticResource TextMutedBrush}"/>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+
+                                <Border x:Name="MessagePanel" Margin="0,16,0,0" CornerRadius="10" BorderThickness="1" Padding="14,12"
+                                        Visibility="Collapsed">
+                                    <TextBlock x:Name="MessageText" FontSize="12" TextWrapping="Wrap"/>
+                                </Border>
+                            </StackPanel>
+                        </ContentControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- 드래그 앤 드롭 안내 -->
+        <Grid x:Name="DropOverlay" Margin="14" IsHitTestVisible="False" Visibility="Collapsed">
+            <Rectangle RadiusX="18" RadiusY="18" Fill="#EEF8F7F4" Stroke="{StaticResource AccentBrush}"
+                       StrokeThickness="2" StrokeDashArray="6 4"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="&#xE896;" Style="{StaticResource Icon}" FontSize="34" HorizontalAlignment="Center"
+                           Foreground="{StaticResource AccentBrush}"/>
+                <TextBlock Text="여기에 놓으면 이 영상을 선택합니다" Margin="0,12,0,0" FontSize="16" FontWeight="SemiBold"
+                           Foreground="{StaticResource AccentBrush}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

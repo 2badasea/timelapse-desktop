@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>TimelapseConverter</AssemblyName>
+    <RootNamespace>TimelapseConverter</RootNamespace>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <Product>TimeLapse Converter</Product>
+    <AssemblyTitle>TimeLapse Converter</AssemblyTitle>
+    <Description>긴 녹화 영상을 원하는 배속의 타임랩스로 줄여주는 프로그램</Description>
+    <Version>1.0.0</Version>
+    <SatelliteResourceLanguages>ko</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+
+</Project>
