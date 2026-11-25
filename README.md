@@ -12,7 +12,7 @@
 자세한 사용법은 zip 안의 PDF 가이드([docs/guide](docs/guide))를 참고하세요.
 
 ```
-TimeLapseConverter-v1.1.0\
+TimeLapseConverter-v1.2.0\
 ├── TimelapseConverter.exe             ← .NET 설치 불필요 (단일 실행 파일)
 ├── ffmpeg\                            ← 동봉된 FFmpeg (ffmpeg.exe, ffprobe.exe)
 └── TimeLapse Converter 사용 가이드.pdf
@@ -36,6 +36,23 @@ TimeLapseConverter-v1.1.0\
 목표 길이를 쓰면 파일마다 배속이 따로 계산되고, 하나가 실패해도 나머지는 계속 진행합니다. (앞뒤 자르기·미리보기는 파일 하나를 골랐을 때만)
 
 결과 파일명: `원본파일명_64x.mp4` (배속 선택) / `원본파일명_15s.mp4` (목표 길이 선택)
+
+## 원클릭 업데이트 (v1.2.0부터)
+
+프로그램을 켤 때 GitHub의 최신 릴리스를 확인해서, 새 버전이 있으면 오른쪽 위에 **새 버전** 버튼을 보여 줍니다.
+누르면 릴리스 노트를 보여 주고, [지금 업데이트]로 아래 과정을 자동으로 진행합니다.
+
+1. `api.github.com/repos/2badasea/timelapse-desktop/releases/latest`에서 `tag_name`과 zip 첨부 파일(`TimeLapseConverter-v*-win-x64.zip`)의 주소·`digest` 확인
+2. zip을 프로그램 폴더의 숨김 임시 폴더(`TimelapseConverter.update`)에 내려받으며 SHA-256 계산 → `digest`와 다르면 설치하지 않음
+3. 압축을 풀어 **바뀐 파일만** 교체. 실행 중인 exe는 덮어쓸 수 없지만 이름은 바꿀 수 있어서, 기존 파일을 `*.tlc-old`로 옮기고 새 파일을 넣음.
+   필수 파일(exe, ffmpeg, ffprobe) 교체에 실패하면 이미 바꾼 파일까지 모두 되돌림
+4. 새 exe를 `--updated-from <이전 버전>`으로 실행하고 지금 프로그램은 종료 → 새 버전이 시작할 때 `*.tlc-old`와 임시 폴더를 정리
+
+- 실제 배포에서는 `https://github.com/...` 주소의 첨부 파일만 받습니다. 변환 중에는 업데이트 버튼이 잠깁니다.
+- [설정] → 업데이트에서 시작할 때 확인을 끄거나 [지금 확인]할 수 있습니다. 인터넷이 안 되면 조용히 넘어갑니다.
+- 업데이트 기능이 없는 v1.1.0 이하에서는 v1.2.0을 한 번 직접 내려받아야 합니다.
+- **릴리스 올릴 때 지킬 것**: 태그는 `v1.2.3` 형식, 첨부 파일 이름은 `TimeLapseConverter-v<버전>-win-x64.zip` (package.ps1이 만드는 이름 그대로).
+  임시 저장(draft)·시험판(pre-release)은 알림 대상에서 빠집니다.
 
 ## 기본 폴더
 
@@ -92,6 +109,7 @@ TimelapseConverter.exe --snapshot <폴더> [--source <녹화폴더>] [--file <�
 - `--batch`: 녹화 폴더 목록을 모두 선택한 화면 (`--convert`가 있으면 한꺼번에 변환까지)
 - `--selftest`: `--file`의 영상으로 목표 길이 칩·슬라이더·구간 입력 동작을 확인해 `selftest.txt`에 PASS/FAIL 기록
 - `--notify-test`: 완료 알림을 한 번 띄우고 결과를 `notify.txt`에 기록
+- `--update-feed <http://127.0.0.1:…/latest.json>`: GitHub 대신 로컬 피드로 업데이트를 확인 (시험용, 내 PC 주소만 허용, `--snapshot` 없이도 동작)
 
 가이드 이미지는 개인 화면이 나오지 않도록 FFmpeg로 만든 "샘플 녹화 영상"(시계 화면)으로 캡처했습니다.
 
@@ -102,12 +120,14 @@ App.xaml(.cs)                 앱 시작/종료 (임시 파일 정리)
 MainWindow.xaml(.cs)          메인 화면 (파일 선택·여러 파일, 배속/목표 길이, 변환 구간, 변환 실행)
 PreviewWindow.xaml(.cs)       미리보기 재생 창
 SettingsWindow.xaml(.cs)      설정 창
+UpdateWindow.xaml(.cs)        새 버전 안내 · 원클릭 업데이트 창
 Themes/Porcelain.xaml         색상(#F8F7F4 + 로열 블루)·컨트롤 스타일
 Controls/RangeBar.cs          손잡이 두 개짜리 구간 선택 막대
 Services/FfmpegTools.cs       FFmpeg 탐색·영상 분석·변환·구간 미리보기 이미지 (GPU→CPU 자동 재시도)
 Services/TimelapsePlanner.cs  배속별 모드 선택, 목표 길이→배속 계산, 예상 시간
 Services/AppSettings.cs       설정 저장/불러오기
 Services/ChildProcessGuard.cs 앱이 강제 종료돼도 FFmpeg가 남지 않게 (Job Object)
+Services/Updater.cs           새 버전 확인 · 내려받기(SHA-256 검증) · 파일 교체 · 재시작
 Helpers/CompletionNotifier.cs 완료 알림 (알림 영역 풍선 알림 → Windows 알림, 작업표시줄 깜빡임)
 ```
 

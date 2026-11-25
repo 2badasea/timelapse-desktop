@@ -130,7 +130,7 @@
 
   /* ── 기능 그리드 ── */
   .features { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
-  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 3.5mm; padding: 5mm; }
+  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: 3.5mm; padding: 4.5mm 5mm; }
   .feature .icon {
     width: 9mm; height: 9mm; border-radius: 2.5mm; background: var(--accent-soft);
     display: flex; align-items: center; justify-content: center; margin-bottom: 3mm;
@@ -140,7 +140,7 @@
   .feature p { font-size: 9.3pt; color: var(--text-2); line-height: 1.55; }
 
   .toc { margin-top: 6mm; }
-  .toc-row { display: flex; align-items: baseline; gap: 3mm; padding: 1.5mm 0; border-bottom: 1px dashed var(--line-strong); font-size: 10.5pt; }
+  .toc-row { display: flex; align-items: baseline; gap: 3mm; padding: 0.9mm 0; border-bottom: 1px dashed var(--line-strong); font-size: 10.5pt; }
   .toc-row .n { color: var(--accent); font-weight: 800; width: 8mm; }
   .toc-row .t { flex: 1; font-weight: 600; }
   .toc-row .p { color: var(--muted); font-size: 9pt; }
@@ -193,7 +193,7 @@
   .def h4 { font-size: 10.5pt; font-weight: 700; margin-bottom: .5mm; }
   .def p { font-size: 9.4pt; color: var(--text-2); }
 
-  .qa + .qa { margin-top: 3.2mm; }
+  .qa + .qa { margin-top: 2.6mm; }
   .qa .q { font-weight: 700; font-size: 10pt; display: flex; gap: 2mm; }
   .qa .q::before { content: "Q"; color: var(--accent); font-weight: 800; }
   .qa .a { font-size: 9.4pt; color: var(--text-2); padding-left: 5mm; }
@@ -217,7 +217,7 @@
     </svg>
     <div class="brand-name">TimeLapse Converter</div>
   </div>
-  <div class="meta"><b>v1.1.0</b>2026년 11월</div>
+  <div class="meta"><b>v1.2.0</b>2026년 11월</div>
 
   <h1>TimeLapse<br><span class="accent">Converter</span></h1>
   <div class="subtitle">사용 가이드</div>
@@ -227,6 +227,7 @@
     <span class="pill blue">목표 길이 맞춤</span>
     <span class="pill blue">앞뒤 자르기</span>
     <span class="pill blue">여러 파일 한꺼번에</span>
+    <span class="pill blue">원클릭 업데이트</span>
     <span class="pill blue">NVIDIA GPU 가속</span>
     <span class="pill gray">Windows 10 / 11 · 64비트</span>
   </div>
@@ -268,12 +269,12 @@
     </div>
     <div class="feature">
       <div class="icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
-      <h4>진행률 · 완료 알림</h4>
-      <p>진행률과 남은 시간을 보여주고 언제든 취소할 수 있습니다. 창을 내려놓고 있어도 끝나면 Windows 알림으로 알려 줘요.</p>
+      <h4>완료 알림 · 원클릭 업데이트</h4>
+      <p>창을 내려놓고 있어도 변환이 끝나면 Windows 알림으로, 새 버전이 나오면 오른쪽 위 버튼으로 알려 주고 한 번 눌러 업데이트합니다.</p>
     </div>
   </div>
 
-  <div class="toc">
+  <div class="toc" style="margin-top:4mm">
     <h3>목차</h3>
     <div class="toc-row"><span class="n">01</span><span class="t">시작하기 — 다운로드와 첫 실행</span><span class="p">3</span></div>
     <div class="toc-row"><span class="n">02</span><span class="t">화면 구성</span><span class="p">4</span></div>
@@ -281,11 +282,12 @@
     <div class="toc-row"><span class="n">04</span><span class="t">여러 파일 한꺼번에 변환하기</span><span class="p">7</span></div>
     <div class="toc-row"><span class="n">05</span><span class="t">배속 · 목표 길이와 변환 모드</span><span class="p">8</span></div>
     <div class="toc-row"><span class="n">06</span><span class="t">설정</span><span class="p">9</span></div>
-    <div class="toc-row"><span class="n">07</span><span class="t">사양과 권장 환경</span><span class="p">10</span></div>
-    <div class="toc-row"><span class="n">08</span><span class="t">주의사항과 자주 묻는 질문</span><span class="p">11</span></div>
+    <div class="toc-row"><span class="n">07</span><span class="t">원클릭 업데이트</span><span class="p">10</span></div>
+    <div class="toc-row"><span class="n">08</span><span class="t">사양과 권장 환경</span><span class="p">11</span></div>
+    <div class="toc-row"><span class="n">09</span><span class="t">주의사항과 자주 묻는 질문</span><span class="p">12</span></div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>2</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>2</span></div>
 </section>
 
 <!-- ═════════════ 3. 시작하기 ═════════════ -->
@@ -297,12 +299,12 @@
   <div class="steps">
     <div class="step"><span class="num">1</span><div>
       <h4>내려받기</h4>
-      <p>GitHub 저장소의 <b>Releases</b>에서 <span class="path">TimeLapseConverter-v1.1.0-win-x64.zip</span> 파일을 내려받습니다.</p>
+      <p>GitHub 저장소의 <b>Releases</b>에서 <span class="path">TimeLapseConverter-v1.2.0-win-x64.zip</span> 파일을 내려받습니다.</p>
     </div></div>
     <div class="step"><span class="num">2</span><div>
       <h4>압축 풀기</h4>
       <p>zip 파일을 오른쪽 클릭 → <span class="kbd">압축 풀기</span>로 원하는 위치(예: <span class="path">D:\TimeLapseConverter</span>)에 풀어 주세요.
-        이전 버전을 쓰고 있었다면 그 폴더는 지워도 되고, 설정은 그대로 이어집니다.</p>
+        이전 버전을 쓰고 있었다면 그 폴더는 지워도 되고, 설정은 그대로 이어집니다. v1.2.0부터는 새 버전이 나오면 프로그램 안에서 바로 업데이트할 수 있어요(10쪽).</p>
     </div></div>
     <div class="step"><span class="num">3</span><div>
       <h4>실행</h4>
@@ -319,13 +321,13 @@
 
   <h3 style="margin-top:8mm">폴더 구성</h3>
   <div class="tree">
-    <div class="row"><span class="p b">TimeLapseConverter-v1.1.0/</span><span class="c"></span></div>
+    <div class="row"><span class="p b">TimeLapseConverter-v1.2.0/</span><span class="c"></span></div>
     <div class="row"><span class="p">├─ TimelapseConverter.exe</span><span class="c">프로그램 본체</span></div>
     <div class="row"><span class="p">├─ <span class="b">ffmpeg/</span></span><span class="c">영상 처리 엔진 — 지우거나 옮기지 마세요</span></div>
     <div class="row"><span class="p">│   ├─ ffmpeg.exe</span><span class="c"></span></div>
     <div class="row"><span class="p">│   ├─ ffprobe.exe</span><span class="c"></span></div>
     <div class="row"><span class="p">│   └─ FFmpeg-LICENSE.txt</span><span class="c">FFmpeg 라이선스</span></div>
-    <div class="row"><span class="p">└─ TimeLapse Converter 사용 가이드.pdf</span><span class="c">이 문서</span></div>
+    <div class="row"><span class="p">└─ TimeLapse Converter <span style="font-family:Pretendard,'Malgun Gothic',sans-serif">사용 가이드</span>.pdf</span><span class="c">이 문서</span></div>
   </div>
 
   <h3 style="margin-top:8mm">처음 실행하면 만들어지는 폴더</h3>
@@ -339,7 +341,7 @@
   </div>
   <p class="muted" style="font-size:9pt;margin-top:2.5mm">모든 폴더는 [설정]에서 바꿀 수 있습니다. USB·DVD 드라이브가 D:인 PC는 C 드라이브를 사용합니다.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>3</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>3</span></div>
 </section>
 
 <!-- ═════════════ 4. 화면 구성 ═════════════ -->
@@ -379,7 +381,7 @@
     <div class="legend-item"><span class="num">12</span><div><h4>미리보기 · 변환 시작</h4><p>작업 중에는 [작업 취소] 버튼과 진행률이 나타납니다.</p></div></div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>4</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>4</span></div>
 </section>
 
 <!-- ═════════════ 5. 사용 방법 (1) ═════════════ -->
@@ -429,7 +431,7 @@
     </div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>5</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>5</span></div>
 </section>
 
 <!-- ═════════════ 6. 사용 방법 (2) ═════════════ -->
@@ -472,7 +474,7 @@
     정확한 시각을 알면 숫자로 입력하는 편이 빠르고, 초 단위로만 적어도(<span class="mono">185</span> = 3분 5초) 됩니다.
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>6</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>6</span></div>
 </section>
 
 <!-- ═════════════ 7. 사용 방법 (3) · 여러 파일 ═════════════ -->
@@ -523,7 +525,7 @@
     하나가 실패해도 나머지는 계속 진행한 뒤 실패한 파일을 알려 줍니다.
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>7</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>7</span></div>
 </section>
 
 <!-- ═════════════ 8. 배속과 변환 모드 ═════════════ -->
@@ -569,7 +571,7 @@
   </div>
   <p class="muted" style="font-size:8.8pt;margin-top:2mm">실측(GTX 1650, 1080p 30fps): 키프레임 고속 모드로 1시간 10분 녹화 → 15초가 약 2~4초. 키프레임 간격이 2초면 x64부터, 10초면 x512부터 키프레임 고속 모드가 적용돼요.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>8</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>8</span></div>
 </section>
 
 <!-- ═════════════ 9. 설정 ═════════════ -->
@@ -598,6 +600,10 @@
         <p><b>NVIDIA GPU 가속</b>은 지원되는 PC에서만 켤 수 있습니다. 끄면 CPU로 변환해요. FFmpeg를 다른 위치의 것으로 쓰고 싶을 때는 <span class="kbd">FFmpeg 위치 지정</span>.</p>
       </div>
       <div class="def">
+        <h4>업데이트</h4>
+        <p>시작할 때 새 버전 확인을 끄거나, <span class="kbd">지금 확인</span>으로 바로 확인할 수 있습니다(10쪽).</p>
+      </div>
+      <div class="def">
         <h4>기억하는 값</h4>
         <p>마지막에 고른 배속과 목표 길이는 다음 실행 때도 그대로 유지됩니다.</p>
       </div>
@@ -612,19 +618,59 @@
   </div>
   <p class="muted" style="font-size:8.8pt;margin-top:3mm">설정은 <span class="path">%APPDATA%\TimelapseConverter\settings.json</span>에 저장됩니다. 이 파일을 지우면 처음 상태로 돌아가요.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>9</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>9</span></div>
+</section>
+
+<!-- ═════════════ 10. 원클릭 업데이트 ═════════════ -->
+<section class="page">
+  <div class="eyebrow">07 · UPDATE</div>
+  <h2>원클릭 업데이트</h2>
+  <p class="lead" style="margin-bottom:6mm">새 버전이 나오면 프로그램이 알려 주고, 버튼 한 번으로 내려받기부터 다시 시작까지 끝납니다.</p>
+
+  <div class="shot crop" style="aspect-ratio: 1100 / 150">
+    <img src="shots/update-header.png" style="width:200.73%;left:-100%;top:-13.33%" alt="새 버전 알림">
+  </div>
+  <p class="muted" style="font-size:8.8pt;margin-top:2mm">프로그램을 켤 때 새 버전이 있으면 오른쪽 위에 파란 <b class="accent">새 버전</b> 버튼이 나타납니다.</p>
+
+  <div class="two-col" style="grid-template-columns: 92mm 1fr; gap:7mm; margin-top:6mm">
+    <div class="shot"><img src="shots/update.png" alt="업데이트 창"></div>
+    <div class="steps" style="gap:3.5mm">
+      <div class="step"><span class="num">1</span><div>
+        <h4>새 버전 버튼 누르기</h4>
+        <p>바뀐 내용(릴리스 노트)과 내려받을 용량이 표시됩니다.</p></div></div>
+      <div class="step"><span class="num">2</span><div>
+        <h4>지금 업데이트</h4>
+        <p>내려받기 → 원본 확인 → 바뀐 파일만 교체 → <b>새 버전으로 다시 시작</b>까지 자동으로 진행돼요. 내려받는 중에는 <span class="kbd">취소</span>할 수 있습니다.</p></div></div>
+      <div class="step"><span class="num">3</span><div>
+        <h4>끝</h4>
+        <p>다시 켜진 화면에 <b>업데이트 완료 · 지금 버전</b>이 표시됩니다. 설정과 변환한 영상은 그대로예요.</p></div></div>
+    </div>
+  </div>
+
+  <div class="note" style="margin-top:6mm">
+    <div class="note-title">안전하게 업데이트하도록</div>
+    내려받은 파일이 GitHub에 올라간 원본과 같은지 <b>SHA-256</b>으로 확인한 뒤에만 설치합니다. 파일을 바꾸다 문제가 생기면 원래 버전으로 되돌리고,
+    변환하는 동안에는 업데이트 버튼이 잠깁니다.
+  </div>
+  <div class="note warn" style="margin-top:3mm">
+    <div class="note-title">처음 한 번은 직접 받아 주세요</div>
+    v1.1.0 이하에는 이 기능이 없어서 <b>v1.2.0은 Releases에서 직접</b> 내려받아야 합니다. 그다음 버전부터는 프로그램 안에서 업데이트됩니다.
+  </div>
+  <p class="muted" style="font-size:8.8pt;margin-top:3mm">새 버전 확인은 GitHub에서 버전 정보만 읽고, 영상이나 개인 정보는 보내지 않습니다. 인터넷이 안 되면 조용히 넘어가며, [설정] → 업데이트에서 끌 수 있어요.</p>
+
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>10</span></div>
 </section>
 
 <!-- ═════════════ 10. 사양 ═════════════ -->
 <section class="page">
-  <div class="eyebrow">07 · SPECIFICATIONS</div>
+  <div class="eyebrow">08 · SPECIFICATIONS</div>
   <h2>사양과 권장 환경</h2>
   <p class="lead">Windows 64비트 PC라면 대부분 실행됩니다. NVIDIA 그래픽카드는 있으면 더 빠를 뿐 필수가 아니에요.</p>
 
   <h3>프로그램 사양</h3>
   <div class="table-card compact">
     <table>
-      <tr><td class="k">버전</td><td>1.1.0</td></tr>
+      <tr><td class="k">버전</td><td>1.2.0</td></tr>
       <tr><td class="k">운영체제</td><td>Windows 10 / 11 (64비트)</td></tr>
       <tr><td class="k">설치</td><td>필요 없음 (포터블). .NET 런타임과 FFmpeg 포함</td></tr>
       <tr><td class="k">용량</td><td>압축 해제 후 약 445MB (프로그램 63MB + FFmpeg 382MB)</td></tr>
@@ -635,7 +681,8 @@
       <tr><td class="k">배속</td><td>x1, x2, x4 … x4096 (13단계) 또는 목표 길이 10 · 15 · 20 · 30 · 60초</td></tr>
       <tr><td class="k">편집</td><td>앞뒤 자르기(초 단위), 여러 파일 차례로 변환</td></tr>
       <tr><td class="k">파일명 규칙</td><td>원본파일명<span class="mono">_64x.mp4</span> · 목표 길이를 쓰면 원본파일명<span class="mono">_15s.mp4</span></td></tr>
-      <tr><td class="k">인터넷</td><td>사용하지 않음. 모든 처리는 내 PC 안에서만 이루어집니다</td></tr>
+      <tr><td class="k">업데이트</td><td>GitHub 릴리스에서 원클릭 (원본 SHA-256 확인 후 설치, 실패 시 되돌림)</td></tr>
+      <tr><td class="k">인터넷</td><td>새 버전 확인·업데이트할 때만 GitHub에 접속 ([설정]에서 끌 수 있음). 영상 처리는 모두 내 PC 안에서</td></tr>
     </table>
   </div>
 
@@ -650,16 +697,16 @@
   </div>
   <div class="note" style="margin-top:4mm">
     <div class="note-title">CPU 모드도 생각보다 빨라요</div>
-    타임랩스는 프레임 대부분을 건너뛰기 때문에 시간 대부분이 "읽기"에 쓰입니다. 그래서 키프레임 고속 모드처럼 높은 배속에서는 CPU와 GPU의 차이가 크지 않습니다.
-    프로그램이 시작할 때 GPU 사용 가능 여부를 스스로 확인하고, GPU 변환이 실패하면 CPU로 자동 재시도합니다.
+    타임랩스는 프레임 대부분을 건너뛰어 시간 대부분이 "읽기"에 쓰이므로, 높은 배속에서는 CPU와 GPU 차이가 크지 않습니다.
+    GPU 사용 가능 여부는 시작할 때 스스로 확인하고, GPU 변환이 실패하면 CPU로 자동 재시도합니다.
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>10</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>11</span></div>
 </section>
 
 <!-- ═════════════ 11. 주의사항 · FAQ ═════════════ -->
 <section class="page">
-  <div class="eyebrow">08 · NOTES &amp; FAQ</div>
+  <div class="eyebrow">09 · NOTES &amp; FAQ</div>
   <h2>주의사항과 자주 묻는 질문</h2>
 
   <div class="card" style="padding:1mm 6mm;margin-top:3mm">
@@ -681,12 +728,14 @@
     <div class="a">NVIDIA 드라이버를 최신(570 이상)으로 업데이트한 뒤 프로그램을 다시 실행하세요. [설정]에서 GPU 가속이 꺼져 있지 않은지도 확인해 주세요.</div></div>
   <div class="qa"><div class="q">HDR(10비트)로 녹화한 영상도 되나요?</div>
     <div class="a">됩니다. GPU의 H.264 인코더가 10비트를 지원하지 않아 자동으로 CPU 변환으로 넘어가며, 결과는 일반(8비트) 영상으로 저장됩니다.</div></div>
+  <div class="qa"><div class="q">업데이트했는데 폴더 이름의 버전은 그대로예요.</div>
+    <div class="a">폴더 이름은 처음 압축을 풀 때 정해진 것이라 바뀌지 않습니다. 지금 버전은 [설정] 창 아래쪽에 표시돼요. 폴더 이름은 원하는 대로 바꿔도 됩니다.</div></div>
   <div class="qa"><div class="q">변환을 더 빠르게 하려면?</div>
     <div class="a">OBS 녹화 설정의 <b>키프레임 간격</b>을 2초 정도로 두면 x64부터 가장 빠른 키프레임 고속 모드가 적용됩니다. 노트북은 전원을 연결해 두세요.</div></div>
 
   <p class="muted" style="font-size:8.3pt;margin-top:5mm">이 프로그램은 영상 처리에 FFmpeg(GPL)를 사용합니다. 라이선스 전문은 <span class="mono">ffmpeg\FFmpeg-LICENSE.txt</span>에 있습니다.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>11</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.2.0</span><span>12</span></div>
 </section>
 
 <script>

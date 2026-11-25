@@ -44,6 +44,14 @@
                                    Foreground="{StaticResource TextSecondaryBrush}" Text="FFmpeg 확인 중…"/>
                     </StackPanel>
                 </Border>
+                <Button x:Name="UpdateButton" DockPanel.Dock="Right" Style="{StaticResource UpdatePill}"
+                        VerticalAlignment="Center" Margin="0,0,10,0" Visibility="Collapsed" Click="UpdateButton_Click"
+                        AutomationProperties.AutomationId="UpdateButton" AutomationProperties.Name="새 버전">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE896;" Style="{StaticResource Icon}" FontSize="12"/>
+                        <TextBlock x:Name="UpdateButtonText" Margin="7,0,0,0" Text="새 버전"/>
+                    </StackPanel>
+                </Button>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <Border Width="40" Height="40" CornerRadius="11" Background="{StaticResource AccentBrush}">

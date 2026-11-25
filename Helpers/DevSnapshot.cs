@@ -17,6 +17,7 @@ namespace TimelapseConverter.Helpers;
 ///   --batch                             녹화 폴더 목록을 모두 선택한 화면 저장 (--convert가 있으면 한꺼번에 변환까지)
 ///   --notify-test                       완료 알림을 한 번 띄워 보고 결과를 notify.txt에 저장
 ///   --selftest                          (--file과 함께) 목표 길이·구간 입력 동작을 확인하고 selftest.txt에 저장 후 종료
+///   --update-feed &lt;http://127.0.0.1:…&gt;   GitHub 대신 로컬 피드로 업데이트 확인 (시험용, --snapshot 없이도 동작)
 /// </summary>
 static class DevSnapshot
 {
@@ -32,6 +33,7 @@ static class DevSnapshot
     public static bool Batch { get; private set; }
     public static bool NotifyTest { get; private set; }
     public static bool SelfTest { get; private set; }
+    public static string? UpdateFeed { get; private set; }
 
     public static void Parse(string[] args)
     {
@@ -43,6 +45,9 @@ static class DevSnapshot
             if (args[i] == "--notify-test") NotifyTest = true;
             if (args[i] == "--selftest") SelfTest = true;
             if (!hasNext) continue;
+            // 업데이트 시험용 로컬 피드: 내 PC 안(localhost)의 주소만 허용
+            if (args[i] == "--update-feed" && Uri.TryCreate(args[i + 1], UriKind.Absolute, out var feed) && feed.IsLoopback)
+                UpdateFeed = feed.ToString();
             if (args[i] == "--snapshot") Folder = args[i + 1];
             if (args[i] == "--source") Source = args[i + 1];
             if (args[i] == "--file") File = args[i + 1];

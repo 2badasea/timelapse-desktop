@@ -19,13 +19,22 @@ public partial class SettingsWindow : Window
     public bool SourceChanged { get; private set; }
     public bool OutputChanged { get; private set; }
     public bool FfmpegChanged { get; private set; }
+    /// <summary>[지금 확인]으로 찾은 새 버전</summary>
+    public UpdateInfo? FoundUpdate { get; private set; }
+    /// <summary>[업데이트]를 눌러 창을 닫음 → 메인 창이 업데이트 창을 연다</summary>
+    public bool UpdateRequested { get; private set; }
 
-    public SettingsWindow(AppSettings settings, FfmpegTools? tools, bool gpuAvailable, Action releasePreview)
+    public SettingsWindow(AppSettings settings, FfmpegTools? tools, bool gpuAvailable, UpdateInfo? knownUpdate,
+        Action releasePreview)
     {
         InitializeComponent();
         _settings = settings;
         _gpuAvailable = gpuAvailable;
         _releasePreview = releasePreview;
+        MaxHeight = SystemParameters.WorkArea.Height; // 작은 화면에서는 카드 부분이 스크롤된다
+
+        UpdateSwitch.IsChecked = settings.CheckUpdates;
+        if (knownUpdate != null) ShowUpdateStatus(knownUpdate);
 
         FfmpegText.Text = tools != null ? "FFmpeg: " + tools.FfmpegPath : "FFmpeg를 찾지 못했습니다. 위치를 지정해 주세요.";
         FfmpegText.ToolTip = FfmpegText.Text;
@@ -166,6 +175,56 @@ public partial class SettingsWindow : Window
         _settings.Save();
         FfmpegChanged = true;
         FfmpegText.Text = "FFmpeg: " + Path.Combine(folder, "ffmpeg.exe") + " (닫으면 다시 확인합니다)";
+    }
+
+    // ───────── 업데이트 ─────────
+
+    void UpdateSwitch_Click(object sender, RoutedEventArgs e)
+    {
+        _settings.CheckUpdates = UpdateSwitch.IsChecked == true;
+        _settings.Save();
+    }
+
+    async void CheckUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        CheckUpdateButton.IsEnabled = false;
+        SetUpdateStatus("확인하는 중…", "TextSecondaryBrush", showButton: false);
+        try
+        {
+            var info = await Updater.CheckAsync(CancellationToken.None);
+            if (info == null)
+                SetUpdateStatus($"최신 버전입니다 (v{Updater.CurrentVersion.ToString(3)})", "SuccessBrush", showButton: false);
+            else
+            {
+                FoundUpdate = info;
+                ShowUpdateStatus(info);
+            }
+        }
+        catch
+        {
+            SetUpdateStatus("확인하지 못했습니다. 인터넷 연결을 확인해 주세요.", "DangerBrush", showButton: false);
+        }
+        finally
+        {
+            CheckUpdateButton.IsEnabled = true;
+        }
+    }
+
+    void ShowUpdateStatus(UpdateInfo info) =>
+        SetUpdateStatus($"새 버전 v{info.Version.ToString(3)} · 지금 업데이트할 수 있어요", "AccentBrush", showButton: true);
+
+    void SetUpdateStatus(string text, string brush, bool showButton)
+    {
+        UpdateStatusRow.Visibility = Visibility.Visible;
+        UpdateStatusText.Text = text;
+        UpdateStatusText.Foreground = (System.Windows.Media.Brush)FindResource(brush);
+        UpdateNowButton.Visibility = showButton ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    void UpdateNow_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateRequested = true;
+        Close();
     }
 
     void Close_Click(object sender, RoutedEventArgs e) => Close();

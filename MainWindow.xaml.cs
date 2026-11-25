@@ -138,7 +138,13 @@ public partial class MainWindow : Window
         BuildTicks();
         RefreshFileList();
         UpdateAll();
+        if (Updater.UpdatedFrom != null)
+            ShowMessage($"업데이트 완료 · 지금 버전 v{Updater.CurrentVersion.ToString(3)} (이전 v{Updater.UpdatedFrom})", isError: false);
         await InitEngineAsync();
+
+        // 새 버전 확인 (캡처·검증 실행에서는 로컬 피드를 줬을 때만)
+        bool checkUpdates = DevSnapshot.Folder == null ? _settings.CheckUpdates : DevSnapshot.UpdateFeed != null;
+        if (checkUpdates) await CheckForUpdateAsync();
 
         if (DevSnapshot.Folder != null) await SaveSnapshotsAndExitAsync();
     }
@@ -247,7 +253,17 @@ public partial class MainWindow : Window
             await Task.Delay(6000);
         }
 
-        var settings = new SettingsWindow(_settings, _tools, _gpuAvailable, () => { }) { Owner = this };
+        if (_update != null)
+        {
+            // 로컬 피드(--update-feed)로 새 버전을 찾았을 때: 업데이트 안내 창 캡처
+            var update = new UpdateWindow(_update) { Owner = this };
+            update.Show();
+            await Task.Delay(400);
+            DevSnapshot.Save(update, "update");
+            update.Close();
+        }
+
+        var settings = new SettingsWindow(_settings, _tools, _gpuAvailable, _update, () => { }) { Owner = this };
         settings.Show();
         await Task.Delay(400);
         DevSnapshot.Save(settings, "settings");
@@ -343,13 +359,63 @@ public partial class MainWindow : Window
     async void OpenSettings()
     {
         if (IsBusy) return;
-        var window = new SettingsWindow(_settings, _tools, _gpuAvailable, () => _previewWindow?.Close()) { Owner = this };
+        var window = new SettingsWindow(_settings, _tools, _gpuAvailable, _update, () => _previewWindow?.Close()) { Owner = this };
         window.ShowDialog();
 
         if (window.SourceChanged) RefreshFileList();
         if (window.OutputChanged) UpdateOutputUi();
         UpdateEngineText();
+        if (window.FoundUpdate != null) ShowUpdateButton(window.FoundUpdate);
+        if (window.UpdateRequested)
+        {
+            OpenUpdateDialog();
+            return;
+        }
         if (window.FfmpegChanged) await InitEngineAsync();
+    }
+
+    // ───────────────────────── 업데이트 ─────────────────────────
+
+    UpdateInfo? _update;
+
+    async Task CheckForUpdateAsync()
+    {
+        try
+        {
+            if (await Updater.CheckAsync(CancellationToken.None) is UpdateInfo info) ShowUpdateButton(info);
+        }
+        catch { /* 인터넷 연결이 없거나 GitHub에 닿지 않으면 조용히 넘어간다 */ }
+    }
+
+    void ShowUpdateButton(UpdateInfo info)
+    {
+        _update = info;
+        UpdateButtonText.Text = $"새 버전 v{info.Version.ToString(3)}";
+        UpdateButton.ToolTip = "눌러서 바뀐 내용을 보고 바로 업데이트할 수 있습니다";
+        UpdateButton.Visibility = Visibility.Visible;
+    }
+
+    void UpdateButton_Click(object sender, RoutedEventArgs e) => OpenUpdateDialog();
+
+    void OpenUpdateDialog()
+    {
+        if (_update == null || IsBusy) return;
+        var window = new UpdateWindow(_update) { Owner = this };
+        window.ShowDialog();
+        if (!window.ReadyToRestart) return;
+
+        // 파일 교체가 끝났으니 설정을 저장하고 새 버전을 띄운 뒤 이 프로그램은 종료
+        try
+        {
+            if (DevSnapshot.Folder == null) _settings.Save();
+            _previewWindow?.Close();
+            Updater.StartNewVersion();
+            Close();
+        }
+        catch (Exception ex)
+        {
+            ShowMessage("새 버전 설치는 끝났지만 자동으로 다시 켜지 못했습니다. 프로그램을 닫고 다시 실행해 주세요.\n" + ex.Message, isError: true);
+        }
     }
 
     /// <summary>GPU 사용 여부(설정)에 맞춰 헤더 상태 표시 갱신</summary>
@@ -1381,6 +1447,7 @@ public partial class MainWindow : Window
         SpeedSlider.IsEnabled = !busy;
         TargetPanel.IsEnabled = !busy;
         SettingsButton.IsEnabled = !busy;
+        UpdateButton.IsEnabled = !busy; // 변환 중에는 업데이트하지 않음
     }
 
     void ShowMessage(string text, bool isError, string? detail = null)

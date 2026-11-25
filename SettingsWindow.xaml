@@ -26,12 +26,22 @@
         </Style>
     </Window.Resources>
 
-    <StackPanel Margin="22,18,22,20">
+    <Grid Margin="22,18,22,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
         <TextBlock Text="설정" FontSize="19" FontWeight="Bold"/>
         <TextBlock Text="변경 내용은 바로 저장됩니다" FontSize="12" Margin="0,2,0,16"
                    Foreground="{StaticResource TextMutedBrush}"/>
 
-        <ContentControl Style="{StaticResource Card}" Padding="20,18">
+        </StackPanel>
+
+        <!-- 작은 화면에서 창이 넘치면 카드 부분만 스크롤 -->
+        <ScrollViewer Grid.Row="1" Margin="-8,0,-8,-10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <ContentControl Style="{StaticResource Card}" Padding="20,18" Margin="8,0,8,10">
             <StackPanel>
                 <!-- 저장 폴더 -->
                 <TextBlock Text="저장 폴더" Style="{StaticResource SectionTitle}"/>
@@ -108,14 +118,34 @@
                     <TextBlock x:Name="FfmpegText" VerticalAlignment="Center" FontSize="12" Margin="0,0,10,0"
                                TextTrimming="CharacterEllipsis" Foreground="{StaticResource TextSecondaryBrush}"/>
                 </DockPanel>
+
+                <Rectangle Height="1" Fill="{StaticResource LineBrush}" Margin="0,14"/>
+
+                <!-- 업데이트 -->
+                <TextBlock Text="업데이트" Style="{StaticResource SectionTitle}"/>
+                <TextBlock Text="새 버전이 나오면 오른쪽 위에 알려 줍니다. (GitHub에서 버전 정보만 확인)"
+                           Style="{StaticResource SectionHint}"/>
+                <DockPanel>
+                    <Button x:Name="CheckUpdateButton" DockPanel.Dock="Right" Style="{StaticResource GhostButton}"
+                            Content="지금 확인" VerticalAlignment="Center" Click="CheckUpdate_Click"/>
+                    <CheckBox x:Name="UpdateSwitch" Style="{StaticResource Switch}" Content="시작할 때 새 버전 확인"
+                              VerticalAlignment="Center" Click="UpdateSwitch_Click"/>
+                </DockPanel>
+                <DockPanel x:Name="UpdateStatusRow" Margin="0,12,0,0" Visibility="Collapsed">
+                    <Button x:Name="UpdateNowButton" DockPanel.Dock="Right" Style="{StaticResource PrimaryButton}"
+                            Content="업데이트" Padding="16,6" FontSize="12" Visibility="Collapsed" Click="UpdateNow_Click"/>
+                    <TextBlock x:Name="UpdateStatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap"
+                               Margin="0,0,10,0"/>
+                </DockPanel>
             </StackPanel>
         </ContentControl>
+        </ScrollViewer>
 
-        <DockPanel Margin="0,16,0,0">
+        <DockPanel Grid.Row="2" Margin="0,16,0,0">
             <Button DockPanel.Dock="Right" Style="{StaticResource PrimaryButton}" Content="닫기"
                     Padding="26,9" FontSize="13" IsCancel="True" IsDefault="True" Click="Close_Click"/>
             <TextBlock x:Name="VersionText" VerticalAlignment="Center" FontSize="12"
                        Foreground="{StaticResource TextMutedBrush}"/>
         </DockPanel>
-    </StackPanel>
+    </Grid>
 </Window>

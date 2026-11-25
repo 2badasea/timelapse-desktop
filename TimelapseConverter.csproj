@@ -12,7 +12,8 @@
     <Product>TimeLapse Converter</Product>
     <AssemblyTitle>TimeLapse Converter</AssemblyTitle>
     <Description>긴 녹화 영상을 원하는 배속의 타임랩스로 줄여주는 프로그램</Description>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <SatelliteResourceLanguages>ko</SatelliteResourceLanguages>
   </PropertyGroup>
 

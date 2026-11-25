@@ -58,6 +58,25 @@ static class Format
         return true;
     }
 
+    /// <summary>
+    /// WPF는 한글을 글자 단위로 줄바꿈해서 "보/여 줍니다"처럼 끊긴다.
+    /// 한글 글자 사이에 보이지 않는 WORD JOINER(U+2060)를 넣어 띄어쓰기에서만 줄이 바뀌게 한다.
+    /// </summary>
+    public static string KeepWords(string text)
+    {
+        var sb = new System.Text.StringBuilder(text.Length * 2);
+        for (int i = 0; i < text.Length; i++)
+        {
+            sb.Append(text[i]);
+            if (i + 1 < text.Length && (IsHangul(text[i]) || IsHangul(text[i + 1]))
+                && !char.IsWhiteSpace(text[i]) && !char.IsWhiteSpace(text[i + 1]))
+                sb.Append('⁠');
+        }
+        return sb.ToString();
+    }
+
+    static bool IsHangul(char c) => c is >= '가' and <= '힣';
+
     public static string Size(long bytes)
     {
         const double KB = 1024, MB = KB * 1024, GB = MB * 1024;
