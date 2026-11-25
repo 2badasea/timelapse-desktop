@@ -217,32 +217,44 @@
     </svg>
     <div class="brand-name">TimeLapse Converter</div>
   </div>
-  <div class="meta"><b>v1.0.0</b>2026년 10월</div>
+  <div class="meta"><b>v1.1.0</b>2026년 11월</div>
 
   <h1>TimeLapse<br><span class="accent">Converter</span></h1>
   <div class="subtitle">사용 가이드</div>
-  <p class="tagline">몇 시간짜리 녹화 영상을 원하는 배속의 짧은 타임랩스로 줄여주는 Windows 프로그램입니다. 설치 없이 압축만 풀면 바로 쓸 수 있어요.</p>
+  <p class="tagline">몇 시간짜리 녹화 영상을 원하는 길이의 짧은 타임랩스로 줄여주는 Windows 프로그램입니다. 설치 없이 압축만 풀면 바로 쓸 수 있어요.</p>
   <div class="chips">
     <span class="pill blue">x1 ~ x4096 배속</span>
-    <span class="pill blue">실제 배속 미리보기</span>
+    <span class="pill blue">목표 길이 맞춤</span>
+    <span class="pill blue">앞뒤 자르기</span>
+    <span class="pill blue">여러 파일 한꺼번에</span>
     <span class="pill blue">NVIDIA GPU 가속</span>
     <span class="pill gray">Windows 10 / 11 · 64비트</span>
   </div>
 
-  <div class="hero"><img src="shots/main.png" alt="메인 화면"></div>
+  <div class="hero" style="bottom:-26mm"><img src="shots/main.png" alt="메인 화면"></div>
 </section>
 
 <!-- ═════════════ 2. 한눈에 보기 ═════════════ -->
 <section class="page">
   <div class="eyebrow">OVERVIEW</div>
   <h2>한눈에 보기</h2>
-  <p class="lead">OBS 등으로 녹화한 긴 영상을 골라 배속만 정하면, 유튜브 쇼츠·인스타그램 릴스에 쓰기 좋은 짧은 타임랩스 MP4가 만들어집니다.</p>
+  <p class="lead">OBS 등으로 녹화한 긴 영상을 골라 배속이나 원하는 길이만 정하면, 유튜브 쇼츠·인스타그램 릴스에 쓰기 좋은 짧은 타임랩스 MP4가 만들어집니다.</p>
 
   <div class="features">
     <div class="feature">
-      <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 12h16M4 12l4-4M4 12l4 4"/><circle cx="16" cy="12" r="3"/></svg></div>
-      <h4>13단계 배속</h4>
-      <p>x1부터 x4096까지 두 배씩 늘어나는 슬라이더. 고르는 즉시 결과 영상 길이와 예상 작업 시간이 보입니다.</p>
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <h4>배속 또는 목표 길이</h4>
+      <p>x1~x4096 13단계 슬라이더로 고르거나, 10·15·20·30·60초 중 원하는 결과 길이를 누르면 배속을 자동으로 맞춥니다.</p>
+    </div>
+    <div class="feature">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></div>
+      <h4>앞뒤 자르기</h4>
+      <p>녹화 시작·끝의 준비 화면을 빼고 원하는 구간만 변환합니다. 시작·끝 장면을 작은 그림으로 확인할 수 있어요.</p>
+    </div>
+    <div class="feature">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div>
+      <h4>여러 파일 한꺼번에</h4>
+      <p>Ctrl·Shift로 여러 개를 고르면 차례로 변환합니다. 목표 길이를 쓰면 파일마다 배속이 따로 계산돼요.</p>
     </div>
     <div class="feature">
       <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z"/></svg></div>
@@ -251,23 +263,13 @@
     </div>
     <div class="feature">
       <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg></div>
-      <h4>자동 최적 모드</h4>
-      <p>영상의 키프레임 간격을 분석해 배속마다 가장 빠른 처리 방식을 자동으로 고릅니다. 따로 설정할 것이 없어요.</p>
+      <h4>자동 최적 모드 · GPU 가속</h4>
+      <p>영상을 분석해 가장 빠른 처리 방식을 고르고, NVIDIA 그래픽카드가 있으면 GPU로, 없으면 CPU로 자동 변환합니다.</p>
     </div>
     <div class="feature">
-      <div class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10h3v4H8zM14 10h2M14 14h2M2 10h2M2 14h2M20 10h2M20 14h2"/></svg></div>
-      <h4>NVIDIA GPU 가속</h4>
-      <p>NVIDIA 그래픽카드가 있으면 GPU로 빠르게 변환하고, 없거나 실패하면 CPU로 자동 전환합니다.</p>
-    </div>
-    <div class="feature">
-      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-      <h4>진행률 · 언제든 취소</h4>
-      <p>진행률과 남은 시간을 보여주고, 작업표시줄 아이콘에도 진행 상황이 표시됩니다. 취소하면 만들던 파일은 자동 삭제.</p>
-    </div>
-    <div class="feature">
-      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 17v3h16v-3"/></svg></div>
-      <h4>설치 없이 실행</h4>
-      <p>압축을 풀고 exe를 실행하면 끝. 필요한 런타임과 영상 엔진(FFmpeg)이 모두 들어 있습니다.</p>
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+      <h4>진행률 · 완료 알림</h4>
+      <p>진행률과 남은 시간을 보여주고 언제든 취소할 수 있습니다. 창을 내려놓고 있어도 끝나면 Windows 알림으로 알려 줘요.</p>
     </div>
   </div>
 
@@ -276,13 +278,14 @@
     <div class="toc-row"><span class="n">01</span><span class="t">시작하기 — 다운로드와 첫 실행</span><span class="p">3</span></div>
     <div class="toc-row"><span class="n">02</span><span class="t">화면 구성</span><span class="p">4</span></div>
     <div class="toc-row"><span class="n">03</span><span class="t">사용 방법 — 파일 선택부터 저장까지</span><span class="p">5</span></div>
-    <div class="toc-row"><span class="n">04</span><span class="t">배속과 변환 모드</span><span class="p">7</span></div>
-    <div class="toc-row"><span class="n">05</span><span class="t">설정</span><span class="p">8</span></div>
-    <div class="toc-row"><span class="n">06</span><span class="t">사양과 권장 환경</span><span class="p">9</span></div>
-    <div class="toc-row"><span class="n">07</span><span class="t">주의사항과 자주 묻는 질문</span><span class="p">10</span></div>
+    <div class="toc-row"><span class="n">04</span><span class="t">여러 파일 한꺼번에 변환하기</span><span class="p">7</span></div>
+    <div class="toc-row"><span class="n">05</span><span class="t">배속 · 목표 길이와 변환 모드</span><span class="p">8</span></div>
+    <div class="toc-row"><span class="n">06</span><span class="t">설정</span><span class="p">9</span></div>
+    <div class="toc-row"><span class="n">07</span><span class="t">사양과 권장 환경</span><span class="p">10</span></div>
+    <div class="toc-row"><span class="n">08</span><span class="t">주의사항과 자주 묻는 질문</span><span class="p">11</span></div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>2</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>2</span></div>
 </section>
 
 <!-- ═════════════ 3. 시작하기 ═════════════ -->
@@ -294,11 +297,12 @@
   <div class="steps">
     <div class="step"><span class="num">1</span><div>
       <h4>내려받기</h4>
-      <p>GitHub 저장소의 <b>Releases</b>에서 <span class="path">TimeLapseConverter-v1.0.0-win-x64.zip</span> 파일을 내려받습니다.</p>
+      <p>GitHub 저장소의 <b>Releases</b>에서 <span class="path">TimeLapseConverter-v1.1.0-win-x64.zip</span> 파일을 내려받습니다.</p>
     </div></div>
     <div class="step"><span class="num">2</span><div>
       <h4>압축 풀기</h4>
-      <p>zip 파일을 오른쪽 클릭 → <span class="kbd">압축 풀기</span>로 원하는 위치(예: <span class="path">D:\TimeLapseConverter</span>)에 풀어 주세요.</p>
+      <p>zip 파일을 오른쪽 클릭 → <span class="kbd">압축 풀기</span>로 원하는 위치(예: <span class="path">D:\TimeLapseConverter</span>)에 풀어 주세요.
+        이전 버전을 쓰고 있었다면 그 폴더는 지워도 되고, 설정은 그대로 이어집니다.</p>
     </div></div>
     <div class="step"><span class="num">3</span><div>
       <h4>실행</h4>
@@ -315,7 +319,7 @@
 
   <h3 style="margin-top:8mm">폴더 구성</h3>
   <div class="tree">
-    <div class="row"><span class="p b">TimeLapseConverter-v1.0.0/</span><span class="c"></span></div>
+    <div class="row"><span class="p b">TimeLapseConverter-v1.1.0/</span><span class="c"></span></div>
     <div class="row"><span class="p">├─ TimelapseConverter.exe</span><span class="c">프로그램 본체</span></div>
     <div class="row"><span class="p">├─ <span class="b">ffmpeg/</span></span><span class="c">영상 처리 엔진 — 지우거나 옮기지 마세요</span></div>
     <div class="row"><span class="p">│   ├─ ffmpeg.exe</span><span class="c"></span></div>
@@ -335,102 +339,124 @@
   </div>
   <p class="muted" style="font-size:9pt;margin-top:2.5mm">모든 폴더는 [설정]에서 바꿀 수 있습니다. USB·DVD 드라이브가 D:인 PC는 C 드라이브를 사용합니다.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>3</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>3</span></div>
 </section>
 
 <!-- ═════════════ 4. 화면 구성 ═════════════ -->
 <section class="page">
   <div class="eyebrow">02 · INTERFACE</div>
   <h2>화면 구성</h2>
-  <p class="lead">한 화면 안에서 파일 선택 → 배속 → 저장까지 끝납니다. 왼쪽은 녹화 파일, 오른쪽은 변환 설정이에요.</p>
+  <p class="lead">한 화면 안에서 파일 선택 → 배속 → 구간 → 저장까지 끝납니다. 왼쪽은 녹화 파일, 오른쪽은 변환 설정이에요.</p>
 
-  <div class="shot annotated">
+  <div class="shot annotated" style="width:90%;margin:0 auto">
     <img src="shots/main.png" alt="메인 화면 구성">
-    <span class="callout" style="left:76.6%;top:5.6%">1</span>
-    <span class="callout" style="left:89.9%;top:5.6%">2</span>
-    <span class="callout" style="left:2.7%;top:20.8%">3</span>
-    <span class="callout" style="left:2.7%;top:28.7%">4</span>
-    <span class="callout" style="left:2.7%;top:82.3%">5</span>
-    <span class="callout" style="left:2.7%;top:91.5%">6</span>
-    <span class="callout" style="left:46.7%;top:21.9%">7</span>
-    <span class="callout" style="left:46.7%;top:33.3%">8</span>
-    <span class="callout" style="left:46.7%;top:58.1%">9</span>
-    <span class="callout" style="left:46.7%;top:75.4%">10</span>
+    <span class="callout" style="left:77.2%;top:5.2%">1</span>
+    <span class="callout" style="left:90.2%;top:5.2%">2</span>
+    <span class="callout" style="left:2.6%;top:19.1%">3</span>
+    <span class="callout" style="left:2.6%;top:26.4%">4</span>
+    <span class="callout" style="left:2.6%;top:83.8%">5</span>
+    <span class="callout" style="left:2.6%;top:92.2%">6</span>
+    <span class="callout" style="left:46.6%;top:19.7%">7</span>
+    <span class="callout" style="left:46.6%;top:27.1%">8</span>
+    <span class="callout" style="left:46.6%;top:35.0%">9</span>
+    <span class="callout" style="left:46.6%;top:51.7%">10</span>
+    <span class="callout" style="left:46.6%;top:78.8%">11</span>
+    <span class="callout" style="left:46.6%;top:88.4%">12</span>
   </div>
 
-  <div class="legend">
+  <div class="legend" style="margin-top:6mm;gap:2.4mm 6mm">
     <div class="legend-item"><span class="num">1</span><div><h4>변환 엔진 상태</h4><p><span class="dot" style="background:var(--success)"></span>GPU 가속 · <span class="dot" style="background:#D99A1E"></span>CPU 모드 · <span class="dot" style="background:var(--danger)"></span>FFmpeg 없음. 누르면 설정이 열립니다.</p></div></div>
     <div class="legend-item"><span class="num">2</span><div><h4>설정</h4><p>저장 폴더, 녹화 폴더, 임시 파일 정리, GPU 사용 여부.</p></div></div>
     <div class="legend-item"><span class="num">3</span><div><h4>녹화 폴더</h4><p>목록에 보여줄 폴더. [변경]으로 바꾸고 ↻로 새로고침.</p></div></div>
-    <div class="legend-item"><span class="num">4</span><div><h4>녹화 파일 목록</h4><p>폴더 안의 MKV·MP4·MOV 파일이 최신순으로 표시됩니다. 클릭해서 선택.</p></div></div>
+    <div class="legend-item"><span class="num">4</span><div><h4>녹화 파일 목록</h4><p>MKV·MP4·MOV 파일을 최신순으로, 길이·용량과 함께 표시. Ctrl·Shift로 여러 개 선택.</p></div></div>
     <div class="legend-item"><span class="num">5</span><div><h4>선택한 파일 정보</h4><p>길이·해상도·프레임레이트·용량·키프레임 간격을 자동 분석.</p></div></div>
-    <div class="legend-item"><span class="num">6</span><div><h4>다른 파일 열기</h4><p>목록에 없는 파일은 여기서 고르거나 창에 끌어다 놓기.</p></div></div>
+    <div class="legend-item"><span class="num">6</span><div><h4>다른 파일 열기</h4><p>목록에 없는 파일(여러 개 가능)은 여기서 고르거나 창에 끌어다 놓기.</p></div></div>
     <div class="legend-item"><span class="num">7</span><div><h4>배속 슬라이더</h4><p>x1 ~ x4096, 13단계. 아래 숫자를 눌러도 이동합니다.</p></div></div>
-    <div class="legend-item"><span class="num">8</span><div><h4>예상 길이 · 작업 시간 · 모드</h4><p>결과 영상 길이와 예상 소요 시간, 자동 선택된 변환 모드.</p></div></div>
-    <div class="legend-item"><span class="num">9</span><div><h4>저장 위치</h4><p>결과가 저장될 폴더와 파일명(<span class="mono">원본이름_배속x.mp4</span>).</p></div></div>
-    <div class="legend-item"><span class="num">10</span><div><h4>미리보기 · 변환 시작</h4><p>작업 중에는 [작업 취소] 버튼과 진행률이 나타납니다.</p></div></div>
+    <div class="legend-item"><span class="num">8</span><div><h4>목표 길이</h4><p>10·15·20·30·60초 중 고르면 배속을 자동 계산. 다시 누르면 해제.</p></div></div>
+    <div class="legend-item"><span class="num">9</span><div><h4>예상 길이 · 작업 시간 · 모드</h4><p>결과 영상 길이와 예상 소요 시간, 자동 선택된 변환 모드.</p></div></div>
+    <div class="legend-item"><span class="num">10</span><div><h4>변환 구간</h4><p>앞뒤 필요 없는 부분 자르기. 손잡이를 끌거나 시각을 입력합니다.</p></div></div>
+    <div class="legend-item"><span class="num">11</span><div><h4>저장 위치</h4><p>결과가 저장될 폴더와 파일명(이름<span class="mono">_64x.mp4</span> / 이름<span class="mono">_15s.mp4</span>).</p></div></div>
+    <div class="legend-item"><span class="num">12</span><div><h4>미리보기 · 변환 시작</h4><p>작업 중에는 [작업 취소] 버튼과 진행률이 나타납니다.</p></div></div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>4</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>4</span></div>
 </section>
 
 <!-- ═════════════ 5. 사용 방법 (1) ═════════════ -->
 <section class="page">
   <div class="eyebrow">03 · HOW TO USE</div>
   <h2>사용 방법</h2>
-  <p class="lead">다섯 단계면 됩니다. 원본 영상은 읽기만 하고 절대 바꾸지 않아요.</p>
+  <p class="lead">고르고, 길이를 정하고, 변환하면 끝입니다. 원본 영상은 읽기만 하고 절대 바꾸지 않아요.</p>
 
-  <div class="howto">
+  <div class="howto" style="gap:5mm">
     <div class="howto-row">
-      <div class="shot crop" style="aspect-ratio: 480 / 666">
-        <img src="shots/main.png" style="width:230%;left:-4.58%;top:-11.71%" alt="파일 선택">
+      <div class="shot crop" style="aspect-ratio: 480 / 735">
+        <img src="shots/main.png" style="width:230%;left:-4.583%;top:-10.612%" alt="파일 선택">
       </div>
       <div class="text">
         <h3><span class="num">1</span>영상 고르기</h3>
         <p>왼쪽 목록에서 녹화 파일을 클릭하세요. 아래 초록 상자에 길이·해상도 같은 정보가 나오면 준비 완료입니다.</p>
         <ul>
+          <li>목록에는 파일마다 <b>영상 길이</b>가 함께 표시됩니다.</li>
           <li>목록에 없는 파일은 <span class="kbd">다른 파일 열기…</span></li>
           <li>탐색기에서 영상 파일을 <b>창 위로 끌어다 놓아도</b> 바로 선택됩니다.</li>
+          <li><span class="kbd">Ctrl</span>·<span class="kbd">Shift</span>를 누른 채 클릭하면 <b>여러 개</b>를 한꺼번에 고를 수 있어요 (7쪽).</li>
           <li>지원 형식: <b>MKV, MP4, MOV</b></li>
-          <li>OBS 녹화 폴더가 다르면 [설정] → 녹화 폴더에서 바꿔 두세요.</li>
         </ul>
       </div>
     </div>
 
     <div class="howto-row">
-      <div class="shot crop" style="aspect-ratio: 574 / 282">
-        <img src="shots/main.png" style="width:192.33%;left:-88.5%;top:-27.66%" alt="배속 설정">
+      <div class="shot crop" style="aspect-ratio: 562 / 300">
+        <img src="shots/main.png" style="width:196.44%;left:-91.64%;top:-28.67%" alt="배속 설정">
       </div>
       <div class="text">
-        <h3><span class="num">2</span>배속 정하기</h3>
-        <p>슬라이더를 움직이면 <b>예상 출력 길이</b>와 <b>예상 작업 시간</b>이 바로 바뀝니다. 오른쪽 아래 파란 표시는 자동으로 고른 변환 모드예요(7쪽).</p>
+        <h3><span class="num">2</span>배속 또는 길이 정하기</h3>
+        <p><b>슬라이더</b>로 배속을 고르거나, <b>목표 길이</b>(10·15·20·30·60초)를 누르세요. 목표 길이를 고르면 영상 길이에 맞춰 배속이 자동으로 정해집니다.</p>
         <ul>
-          <li>쇼츠·릴스(15~60초)용 추천: 1시간 녹화 <b>x64~x256</b>, 8시간 녹화 <b>x512~x2048</b></li>
+          <li>예) 1시간 10분 녹화 + <span class="kbd">15초</span> → <b>x281</b>로 정확히 15초</li>
+          <li>칩을 다시 누르거나 슬라이더를 움직이면 직접 고르기로 돌아갑니다.</li>
         </ul>
       </div>
     </div>
 
-    <div class="note" style="display:grid;grid-template-columns:78mm 1fr;gap:5mm;align-items:center;padding:4mm">
+    <div class="note" style="display:grid;grid-template-columns:70mm 1fr;gap:5mm;align-items:center;padding:4mm">
       <div class="shot"><img src="shots/drop.png" alt="끌어다 놓기"></div>
       <div>
         <div class="note-title">TIP · 끌어다 놓기</div>
-        탐색기에서 영상 파일을 끌어 프로그램 창 위에 올리면 파란 점선 안내가 나타나고, 놓는 즉시 그 파일이 선택됩니다. 녹화 폴더가 아닌 곳에 있는 파일도 바로 쓸 수 있어요.
+        탐색기에서 영상 파일을 끌어 프로그램 창 위에 올리면 파란 점선 안내가 나타나고, 놓는 즉시 선택됩니다. 여러 파일을 한 번에 끌어 놓으면 한꺼번에 변환할 수 있어요.
       </div>
     </div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>5</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>5</span></div>
 </section>
 
 <!-- ═════════════ 6. 사용 방법 (2) ═════════════ -->
 <section class="page">
   <div class="eyebrow">03 · HOW TO USE</div>
 
-  <div class="howto" style="margin-top:4mm">
+  <div class="howto" style="margin-top:4mm;gap:8mm">
     <div class="howto-row" style="grid-template-columns: 1fr 100mm">
       <div class="text">
-        <h3><span class="num">3</span>미리보기로 확인하기</h3>
-        <p><span class="kbd">▷ 미리보기</span>를 누르면 영상 앞부분을 <b>선택한 배속 그대로</b> 짧게(약 8초) 변환해서 새 창에서 반복 재생합니다.</p>
+        <h3><span class="num">3</span>앞뒤 자르기 <span class="pill gray" style="margin-left:1mm">필요할 때만</span></h3>
+        <p>녹화를 시작하고 끝낼 때 찍힌 준비·정리 장면을 빼고 싶을 때 씁니다.</p>
+        <ul>
+          <li>막대의 <b>두 손잡이</b>를 끌거나, 시작·끝 칸에 <span class="mono">3:00</span> · <span class="mono">1:08:20</span>처럼 입력하고 <span class="kbd">Enter</span></li>
+          <li>양쪽 작은 그림으로 그 시점의 장면을 확인할 수 있어요.</li>
+          <li>자르면 <b>목표 길이도 자른 구간 기준</b>으로 계산됩니다.</li>
+          <li><span class="kbd">전체 구간</span>을 누르면 처음부터 끝까지로 되돌아갑니다.</li>
+        </ul>
+      </div>
+      <div class="shot crop" style="aspect-ratio: 562 / 172.5">
+        <img src="shots/main.png" style="width:196.44%;left:-91.64%;top:-231.0%" alt="변환 구간">
+      </div>
+    </div>
+
+    <div class="howto-row" style="grid-template-columns: 1fr 100mm">
+      <div class="text">
+        <h3><span class="num">4</span>미리보기로 확인하기</h3>
+        <p><span class="kbd">▷ 미리보기</span>를 누르면 (선택한 구간의) 앞부분을 <b>정한 배속 그대로</b> 짧게(약 8초) 변환해서 새 창에서 반복 재생합니다.</p>
         <ul>
           <li>배속을 바꿔 가며 여러 번 확인해도 괜찮아요.</li>
           <li>미리보기 파일은 임시 폴더에 저장되고, 앱을 끄거나 [설정] → 임시 파일 → <span class="kbd">지금 정리</span>로 언제든 지울 수 있습니다.</li>
@@ -438,40 +464,73 @@
       </div>
       <div class="shot"><img src="shots/preview.png" alt="미리보기 창"></div>
     </div>
+  </div>
 
+  <div class="note" style="margin-top:8mm">
+    <div class="note-title">구간을 정하는 요령</div>
+    녹화 시작 직후 장면이 궁금하면 시작 손잡이를 조금씩 옮겨 보며 왼쪽 그림을 확인하세요. 손을 멈추면 그 시점의 장면이 바로 나타납니다.
+    정확한 시각을 알면 숫자로 입력하는 편이 빠르고, 초 단위로만 적어도(<span class="mono">185</span> = 3분 5초) 됩니다.
+  </div>
+
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>6</span></div>
+</section>
+
+<!-- ═════════════ 7. 사용 방법 (3) · 여러 파일 ═════════════ -->
+<section class="page">
+  <div class="eyebrow">03 · HOW TO USE</div>
+
+  <div class="howto" style="margin-top:4mm">
     <div class="howto-row">
       <div class="text">
-        <h3><span class="num">4</span>변환 시작</h3>
-        <p><span class="kbd">변환 시작</span>을 누르면 진행률과 경과·남은 시간이 표시됩니다. 작업표시줄 아이콘에도 초록 진행 막대가 나타나요.</p>
+        <h3><span class="num">5</span>변환 시작</h3>
+        <p><span class="kbd">변환 시작</span>을 누르면 진행률과 경과·남은 시간이 표시됩니다. 작업표시줄 아이콘에도 진행 막대가 나타나요.</p>
         <ul>
           <li>멈추려면 <span class="kbd">✕ 작업 취소</span> — 만들던 파일은 자동으로 지워집니다.</li>
           <li>같은 이름의 결과 파일이 있으면 <b>덮어쓰기 / 새 이름으로 저장 / 취소</b>를 물어봅니다.</li>
         </ul>
       </div>
-      <div class="shot crop" style="aspect-ratio: 574 / 153">
-        <img src="shots/progress.png" style="width:192.33%;left:-88.5%;top:-341.8%" alt="변환 진행">
+      <div class="shot crop" style="aspect-ratio: 562 / 113">
+        <img src="shots/progress.png" style="width:196.44%;left:-91.64%;top:-607.08%" alt="변환 진행">
       </div>
     </div>
 
     <div class="howto-row">
       <div class="text">
-        <h3><span class="num">5</span>완료</h3>
-        <p>알림음과 함께 초록 상자가 나타납니다. <span class="kbd">폴더에서 보기</span>로 파일 위치를 열거나 <span class="kbd">재생</span>으로 바로 확인하세요.</p>
+        <h3><span class="num">6</span>완료</h3>
+        <p>초록 상자가 나타나면 끝. <span class="kbd">폴더에서 보기</span>나 <span class="kbd">재생</span>으로 바로 확인하세요. 다른 창을 보고 있었다면 <b>Windows 알림</b>과 작업표시줄 깜빡임으로 알려 줍니다.</p>
       </div>
-      <div class="shot crop" style="aspect-ratio: 574 / 197">
-        <img src="shots/result.png" style="width:192.33%;left:-88.5%;top:-265.48%" alt="변환 완료">
+      <div class="shot crop" style="aspect-ratio: 562 / 157.5">
+        <img src="shots/result.png" style="width:196.44%;left:-91.64%;top:-406.35%" alt="변환 완료">
       </div>
     </div>
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>6</span></div>
+  <div class="eyebrow" style="margin-top:9mm">04 · BATCH</div>
+  <h2 style="font-size:17pt;margin-bottom:3mm">여러 파일 한꺼번에 변환하기</h2>
+  <div class="two-col" style="grid-template-columns: 104mm 1fr; gap:6mm">
+    <div class="shot"><img src="shots/batch-result.png" alt="여러 파일 변환"></div>
+    <div class="steps" style="gap:2.6mm">
+      <div class="step"><span class="num" style="width:6.5mm;height:6.5mm;font-size:9pt">1</span><div>
+        <p><span class="kbd">Ctrl</span>+클릭으로 하나씩, <span class="kbd">Shift</span>+클릭으로 범위, <span class="kbd">Ctrl</span>+<span class="kbd">A</span>로 전부 고릅니다.</p></div></div>
+      <div class="step"><span class="num" style="width:6.5mm;height:6.5mm;font-size:9pt">2</span><div>
+        <p>배속이나 목표 길이를 정하고 <span class="kbd">N개 변환 시작</span>. 목록 순서대로 차례로 변환합니다.</p></div></div>
+      <div class="step"><span class="num" style="width:6.5mm;height:6.5mm;font-size:9pt">3</span><div>
+        <p>끝나면 <b>N개 변환 완료</b>와 전체 용량이 표시됩니다.</p></div></div>
+    </div>
+  </div>
+  <div class="note" style="margin-top:4mm;font-size:9pt">
+    <b>목표 길이</b>를 쓰면 파일마다 배속이 따로 계산돼 모두 같은 길이가 됩니다. 여러 파일은 각각 <b>처음부터 끝까지</b> 변환하고(앞뒤 자르기·미리보기는 한 파일만 골랐을 때),
+    하나가 실패해도 나머지는 계속 진행한 뒤 실패한 파일을 알려 줍니다.
+  </div>
+
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>7</span></div>
 </section>
 
-<!-- ═════════════ 7. 배속과 변환 모드 ═════════════ -->
+<!-- ═════════════ 8. 배속과 변환 모드 ═════════════ -->
 <section class="page">
-  <div class="eyebrow">04 · SPEED &amp; MODES</div>
-  <h2>배속과 변환 모드</h2>
-  <p class="lead">결과 길이 = 원본 길이 ÷ 배속. 녹화 길이별로 어떤 배속을 고르면 되는지 표로 정리했어요.</p>
+  <div class="eyebrow">05 · SPEED &amp; MODES</div>
+  <h2>배속 · 목표 길이와 변환 모드</h2>
+  <p class="lead" style="margin-bottom:6mm">결과 길이 = 구간 길이 ÷ 배속. 녹화 길이별 추천 배속을 표로 정리했어요.</p>
 
   <div class="table-card compact">
     <table>
@@ -493,27 +552,29 @@
   </div>
   <p class="muted" style="font-size:8.8pt;margin-top:2mm"><b class="accent">파란 숫자</b> = 쇼츠·릴스에 알맞은 15~60초 길이</p>
 
-  <h3 style="margin-top:6mm">변환 모드는 자동으로 골라집니다</h3>
+  <div class="note" style="margin-top:3mm;padding:3mm 5mm">
+    <div class="note-title">목표 길이를 고르면 — 배속 = 구간 길이 ÷ 목표 길이</div>
+    1시간 10분 녹화라면 10초 <b>x422</b> · 15초 <b>x281</b> · 20초 <b>x211</b> · 30초 <b>x141</b> · 60초 <b>x70</b>처럼 딱 맞는 배속이 자동으로 정해지고,
+    배속에 따라 아래 변환 모드도 똑같이 자동 선택됩니다. 구간이 목표 길이보다 짧으면 x1로 변환돼요.
+  </div>
+
+  <h3 style="margin-top:4mm">변환 모드는 자동으로 골라집니다</h3>
   <div class="table-card compact">
     <table>
-      <tr><th style="width:30mm">모드</th><th style="width:40mm">적용 조건</th><th>방식</th><th style="width:25mm">속도</th></tr>
-      <tr><td><span class="pill gray">정밀</span></td><td>x16 미만</td><td>모든 프레임을 읽고 N번째 프레임만 골라 가장 정확하게. 원본 프레임레이트 유지</td><td>보통</td></tr>
+      <tr><th style="width:30mm">모드</th><th style="width:46mm">적용 조건</th><th>방식</th><th style="width:20mm">속도</th></tr>
+      <tr><td><span class="pill gray">정밀</span></td><td>x16 미만</td><td>모든 프레임을 읽고 N번째 프레임만 골라 가장 정확하게. 슬라이더 배속은 원본 프레임레이트 유지</td><td>보통</td></tr>
       <tr><td><span class="pill orange">고속</span></td><td>x16 이상</td><td>B-프레임을 건너뛰고 참조 프레임만 읽음. 30fps로 저장</td><td>빠름</td></tr>
       <tr><td><span class="pill blue">키프레임 고속</span></td><td>배속 ÷ 30 ≥ 키프레임 간격</td><td>키프레임(I-frame)만 읽음. 30fps로 저장</td><td>가장 빠름</td></tr>
     </table>
   </div>
-  <div class="note" style="margin-top:4mm">
-    <div class="note-title">참고 · 실측 속도 (GTX 1650, 1080p 30fps, 26분 녹화)</div>
-    정밀 모드 약 1분 · 고속 모드(x16) 약 22초 · 키프레임 고속 모드(x256) 약 4초.
-    키프레임 간격이 2초면 x64부터, 10초면 x512부터 키프레임 고속 모드가 적용돼요. 화면의 모드 표시에 마우스를 올리면 이유가 나옵니다.
-  </div>
+  <p class="muted" style="font-size:8.8pt;margin-top:2mm">실측(GTX 1650, 1080p 30fps): 키프레임 고속 모드로 1시간 10분 녹화 → 15초가 약 2~4초. 키프레임 간격이 2초면 x64부터, 10초면 x512부터 키프레임 고속 모드가 적용돼요.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>7</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>8</span></div>
 </section>
 
-<!-- ═════════════ 8. 설정 ═════════════ -->
+<!-- ═════════════ 9. 설정 ═════════════ -->
 <section class="page">
-  <div class="eyebrow">05 · SETTINGS</div>
+  <div class="eyebrow">06 · SETTINGS</div>
   <h2>설정</h2>
   <p class="lead">오른쪽 위 <span class="kbd">⚙ 설정</span>을 누르면 열립니다. 바꾼 내용은 바로 저장돼요.</p>
 
@@ -536,6 +597,10 @@
         <h4>변환 엔진</h4>
         <p><b>NVIDIA GPU 가속</b>은 지원되는 PC에서만 켤 수 있습니다. 끄면 CPU로 변환해요. FFmpeg를 다른 위치의 것으로 쓰고 싶을 때는 <span class="kbd">FFmpeg 위치 지정</span>.</p>
       </div>
+      <div class="def">
+        <h4>기억하는 값</h4>
+        <p>마지막에 고른 배속과 목표 길이는 다음 실행 때도 그대로 유지됩니다.</p>
+      </div>
     </div>
   </div>
 
@@ -547,28 +612,29 @@
   </div>
   <p class="muted" style="font-size:8.8pt;margin-top:3mm">설정은 <span class="path">%APPDATA%\TimelapseConverter\settings.json</span>에 저장됩니다. 이 파일을 지우면 처음 상태로 돌아가요.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>8</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>9</span></div>
 </section>
 
-<!-- ═════════════ 9. 사양 ═════════════ -->
+<!-- ═════════════ 10. 사양 ═════════════ -->
 <section class="page">
-  <div class="eyebrow">06 · SPECIFICATIONS</div>
+  <div class="eyebrow">07 · SPECIFICATIONS</div>
   <h2>사양과 권장 환경</h2>
   <p class="lead">Windows 64비트 PC라면 대부분 실행됩니다. NVIDIA 그래픽카드는 있으면 더 빠를 뿐 필수가 아니에요.</p>
 
   <h3>프로그램 사양</h3>
   <div class="table-card compact">
     <table>
-      <tr><td class="k">버전</td><td>1.0.0</td></tr>
+      <tr><td class="k">버전</td><td>1.1.0</td></tr>
       <tr><td class="k">운영체제</td><td>Windows 10 / 11 (64비트)</td></tr>
       <tr><td class="k">설치</td><td>필요 없음 (포터블). .NET 런타임과 FFmpeg 포함</td></tr>
       <tr><td class="k">용량</td><td>압축 해제 후 약 445MB (프로그램 63MB + FFmpeg 382MB)</td></tr>
       <tr><td class="k">입력 형식</td><td>MKV, MP4, MOV (H.264 · HEVC 등)</td></tr>
       <tr><td class="k">출력 형식</td><td>MP4 (H.264), 원본 해상도 유지, <b>오디오 없음</b></td></tr>
       <tr><td class="k">화질</td><td>고화질 고정 (GPU: CQ 18 / CPU: CRF 18)</td></tr>
-      <tr><td class="k">출력 프레임레이트</td><td>정밀 모드는 원본 그대로, 고속·키프레임 모드는 30fps</td></tr>
-      <tr><td class="k">배속</td><td>x1, x2, x4 … x4096 (13단계)</td></tr>
-      <tr><td class="k">파일명 규칙</td><td><span class="mono">원본파일명_배속x.mp4</span> (예: <span class="mono">2026-10-08 09-00-00_64x.mp4</span>)</td></tr>
+      <tr><td class="k">출력 프레임레이트</td><td>정밀 모드의 슬라이더 배속은 원본 그대로, 그 밖에는 30fps</td></tr>
+      <tr><td class="k">배속</td><td>x1, x2, x4 … x4096 (13단계) 또는 목표 길이 10 · 15 · 20 · 30 · 60초</td></tr>
+      <tr><td class="k">편집</td><td>앞뒤 자르기(초 단위), 여러 파일 차례로 변환</td></tr>
+      <tr><td class="k">파일명 규칙</td><td>원본파일명<span class="mono">_64x.mp4</span> · 목표 길이를 쓰면 원본파일명<span class="mono">_15s.mp4</span></td></tr>
       <tr><td class="k">인터넷</td><td>사용하지 않음. 모든 처리는 내 PC 안에서만 이루어집니다</td></tr>
     </table>
   </div>
@@ -588,24 +654,27 @@
     프로그램이 시작할 때 GPU 사용 가능 여부를 스스로 확인하고, GPU 변환이 실패하면 CPU로 자동 재시도합니다.
   </div>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>9</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>10</span></div>
 </section>
 
-<!-- ═════════════ 10. 주의사항 · FAQ ═════════════ -->
+<!-- ═════════════ 11. 주의사항 · FAQ ═════════════ -->
 <section class="page">
-  <div class="eyebrow">07 · NOTES &amp; FAQ</div>
+  <div class="eyebrow">08 · NOTES &amp; FAQ</div>
   <h2>주의사항과 자주 묻는 질문</h2>
 
-  <div class="card" style="padding:2mm 6mm;margin-top:4mm">
+  <div class="card" style="padding:1mm 6mm;margin-top:3mm">
     <div class="caution"><span class="ic">!</span><div><h4>압축을 푼 다음 실행하세요</h4><p>zip 안에서 바로 실행하거나 exe만 따로 옮기면 영상 엔진(ffmpeg 폴더)을 찾지 못합니다. 항상 폴더째로 두세요.</p></div></div>
-    <div class="caution"><span class="ic">!</span><div><h4>녹화가 끝난 파일만 변환할 수 있어요</h4><p>녹화 중인 파일은 길이를 읽을 수 없어 "영상 정보를 읽지 못했습니다"가 나옵니다.</p></div></div>
+    <div class="caution"><span class="ic">!</span><div><h4>녹화가 끝난 파일만 변환할 수 있어요</h4><p>녹화 중인 파일은 길이를 읽을 수 없어 목록에 길이가 표시되지 않고, 고르면 "영상 정보를 읽지 못했습니다"가 나옵니다.</p></div></div>
     <div class="caution"><span class="ic">!</span><div><h4>결과 영상에는 소리가 없습니다</h4><p>빠르게 재생되는 타임랩스 특성상 오디오는 제거됩니다. 배경음악은 편집 프로그램에서 넣어 주세요.</p></div></div>
-    <div class="caution"><span class="ic">!</span><div><h4>작업 중 프로그램을 닫으면</h4><p>확인 창이 뜨고, 종료하면 변환이 중단되며 만들던 파일은 삭제됩니다. 원본은 그대로예요.</p></div></div>
-    <div class="caution"><span class="ic">!</span><div><h4>디스크 여유 공간</h4><p>결과 영상은 1분에 약 100MB 안팎입니다(1080p 기준). 저장 폴더 드라이브에 여유 공간을 확보해 주세요.</p></div></div>
+    <div class="caution"><span class="ic">!</span><div><h4>작업 중 프로그램을 닫으면</h4><p>확인 창이 뜨고, 종료하면 변환이 중단되며 만들던 파일은 삭제됩니다. 여러 파일 중 먼저 끝난 결과와 원본은 그대로예요.</p></div></div>
     <div class="caution"><span class="ic">!</span><div><h4>백신 · SmartScreen 경고</h4><p>서명 없는 개인 프로그램이라 경고가 뜰 수 있습니다. 공식 GitHub 릴리스에서 받은 파일이라면 [추가 정보] → [실행].</p></div></div>
   </div>
 
-  <h3 style="margin-top:7mm">자주 묻는 질문</h3>
+  <h3 style="margin-top:6mm">자주 묻는 질문</h3>
+  <div class="qa"><div class="q">목표 길이를 15초로 했는데 15.1초가 나와요.</div>
+    <div class="a">초당 30프레임 단위로 맞추느라 0.1초 안팎의 차이가 생길 수 있습니다. 구간이 목표 길이보다 짧으면 x1(원래 속도)로 변환돼요.</div></div>
+  <div class="qa"><div class="q">변환이 끝났는지 어떻게 알 수 있나요?</div>
+    <div class="a">창을 보고 있으면 알림음과 초록 상자로, 다른 창을 보고 있으면 Windows 알림과 작업표시줄 깜빡임으로 알려 줍니다. 알림이 안 보이면 Windows 설정 → 시스템 → 알림에서 <b>방해 금지</b>가 꺼져 있는지 확인하세요.</div></div>
   <div class="qa"><div class="q">미리보기 창이 까맣게 나오거나 재생이 안 돼요.</div>
     <div class="a">Windows <b>N / KN 에디션</b>은 기본 미디어 기능이 빠져 있습니다. 미리보기 창의 [기본 플레이어로 열기]를 쓰거나, Windows 설정 → 앱 → 선택적 기능에서 <b>미디어 기능 팩</b>을 설치하세요.</div></div>
   <div class="qa"><div class="q">헤더에 "CPU 모드"라고 나와요. NVIDIA 그래픽카드인데요?</div>
@@ -614,12 +683,10 @@
     <div class="a">됩니다. GPU의 H.264 인코더가 10비트를 지원하지 않아 자동으로 CPU 변환으로 넘어가며, 결과는 일반(8비트) 영상으로 저장됩니다.</div></div>
   <div class="qa"><div class="q">변환을 더 빠르게 하려면?</div>
     <div class="a">OBS 녹화 설정의 <b>키프레임 간격</b>을 2초 정도로 두면 x64부터 가장 빠른 키프레임 고속 모드가 적용됩니다. 노트북은 전원을 연결해 두세요.</div></div>
-  <div class="qa"><div class="q">예상 작업 시간과 실제 시간이 달라요.</div>
-    <div class="a">예상 시간은 GTX 1650 기준 실측값으로 계산한 대략치입니다. PC 사양과 영상 형식에 따라 달라질 수 있어요.</div></div>
 
-  <p class="muted" style="font-size:8.3pt;margin-top:6mm">이 프로그램은 영상 처리에 FFmpeg(GPL)를 사용합니다. 라이선스 전문은 <span class="mono">ffmpeg\FFmpeg-LICENSE.txt</span>에 있습니다.</p>
+  <p class="muted" style="font-size:8.3pt;margin-top:5mm">이 프로그램은 영상 처리에 FFmpeg(GPL)를 사용합니다. 라이선스 전문은 <span class="mono">ffmpeg\FFmpeg-LICENSE.txt</span>에 있습니다.</p>
 
-  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.0.0</span><span>10</span></div>
+  <div class="footer"><span><b>TimeLapse Converter</b> 사용 가이드 · v1.1.0</span><span>11</span></div>
 </section>
 
 <script>

@@ -21,6 +21,43 @@ static class Format
     public static string Clock(TimeSpan t) =>
         t.TotalHours >= 1 ? t.ToString(@"h\:mm\:ss") : t.ToString(@"m\:ss");
 
+    /// <summary>배속 표시: x256 / x281 / x2.5</summary>
+    public static string Speed(double speed)
+    {
+        double rounded = Math.Round(speed);
+        if (Math.Abs(speed - rounded) < 0.05 || speed >= 10) return $"x{rounded:0}";
+        return $"x{speed:0.#}";
+    }
+
+    /// <summary>구간 입력용 시각: "1:08:40" (1시간 이상 영상) / "8:40"</summary>
+    public static string Timecode(double seconds, bool hours)
+    {
+        long s = (long)Math.Round(Math.Max(0, seconds));
+        return hours || s >= 3600
+            ? $"{s / 3600}:{s % 3600 / 60:00}:{s % 60:00}"
+            : $"{s / 60}:{s % 60:00}";
+    }
+
+    /// <summary>"1:08:40", "8:40", "520", "8:40.5" 형식을 초로 읽는다</summary>
+    public static bool TryParseTimecode(string text, out double seconds)
+    {
+        seconds = 0;
+        var parts = text.Trim().Replace('：', ':').Split(':');
+        if (parts.Length is < 1 or > 3) return false;
+        double total = 0;
+        for (int i = 0; i < parts.Length; i++)
+        {
+            bool last = i == parts.Length - 1;
+            if (!double.TryParse(parts[i].Trim(), System.Globalization.NumberStyles.Float,
+                    System.Globalization.CultureInfo.InvariantCulture, out double v) || v < 0)
+                return false;
+            if (!last && v != Math.Floor(v)) return false;
+            total = total * 60 + v;
+        }
+        seconds = total;
+        return true;
+    }
+
     public static string Size(long bytes)
     {
         const double KB = 1024, MB = KB * 1024, GB = MB * 1024;

@@ -2,6 +2,7 @@
 #   1) .\build.ps1                 → dist\ (exe + ffmpeg)
 #   2) .\docs\guide\make-pdf.ps1   → 사용 가이드 PDF
 #   3) .\package.ps1               → release\TimeLapseConverter-v<버전>-win-x64.zip
+param([string]$Dist = "")
 $ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
 
@@ -9,7 +10,7 @@ $root = $PSScriptRoot
 $version = ($proj.Project.PropertyGroup | Where-Object { $_.Version } | Select-Object -First 1).Version
 $name = "TimeLapseConverter-v$version"
 
-$dist = Join-Path $root "dist"
+$dist = if ($Dist) { [System.IO.Path]::GetFullPath($Dist) } else { Join-Path $root "dist" }
 $pdf = Join-Path $root "docs\guide\TimeLapse Converter 사용 가이드.pdf"
 foreach ($required in "$dist\TimelapseConverter.exe", "$dist\ffmpeg\ffmpeg.exe", "$dist\ffmpeg\ffprobe.exe", $pdf) {
     if (-not (Test-Path $required)) { throw "없는 파일: $required" }

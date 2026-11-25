@@ -1,6 +1,6 @@
 # TimeLapse Converter
 
-몇 시간짜리 녹화 영상을 원하는 배속(x1 ~ x4096)의 짧은 타임랩스 MP4로 줄여주는 Windows 프로그램입니다.
+몇 시간짜리 녹화 영상을 원하는 배속(x1 ~ x4096) 또는 원하는 길이(10·15·20·30·60초)의 짧은 타임랩스 MP4로 줄여주는 Windows 프로그램입니다.
 [웹 버전(timelapse)](https://github.com/2badasea/timelapse)의 기능을 설치 없이 실행되는 exe로 옮겼습니다.
 
 ![메인 화면](docs/guide/shots/main.png)
@@ -12,24 +12,30 @@
 자세한 사용법은 zip 안의 PDF 가이드([docs/guide](docs/guide))를 참고하세요.
 
 ```
-TimeLapseConverter-v1.0.0\
+TimeLapseConverter-v1.1.0\
 ├── TimelapseConverter.exe             ← .NET 설치 불필요 (단일 실행 파일)
 ├── ffmpeg\                            ← 동봉된 FFmpeg (ffmpeg.exe, ffprobe.exe)
 └── TimeLapse Converter 사용 가이드.pdf
 ```
 
 - 실행 환경: Windows 10 / 11 (64비트)
-
+- 이전 버전 폴더는 지워도 됩니다. 설정(`%APPDATA%\TimelapseConverter`)은 그대로 이어집니다.
 - FFmpeg는 `exe 옆 ffmpeg 폴더 → PATH → C:\ffmpeg\bin` 순서로 찾고, 없으면 [설정]에서 직접 지정할 수 있습니다.
 - NVIDIA 그래픽카드가 있으면 GPU(NVENC)로, 없으면 CPU(libx264)로 자동 변환합니다. GPU 변환이 실패해도 CPU로 자동 재시도합니다.
 
 ## 사용 방법
 
-1. 왼쪽 목록에서 녹화 파일 선택 (또는 [다른 파일 열기], 창에 드래그 앤 드롭)
-2. 배속 슬라이더로 배속 선택 → 예상 출력 길이 / 예상 작업 시간 확인
-3. [미리보기]: 앞부분을 실제 배속으로 짧게 변환해서 바로 재생
-4. [변환 시작]: 진행률·남은 시간 표시, 언제든 [작업 취소] 가능
-5. 완료 후 [폴더에서 보기] / [재생]
+1. 왼쪽 목록에서 녹화 파일 선택 (또는 [다른 파일 열기], 창에 드래그 앤 드롭). 목록에는 파일마다 영상 길이가 표시됩니다.
+2. 배속 슬라이더로 배속 선택 — 또는 **목표 길이**(10·15·20·30·60초)를 누르면 영상 길이에 맞춰 배속을 자동 계산
+3. (필요하면) **변환 구간**에서 앞뒤 자르기: 손잡이를 끌거나 시작·끝 시각 입력, 양쪽에 그 시점의 장면 미리보기
+4. [미리보기]: (선택 구간의) 앞부분을 실제 배속으로 짧게 변환해서 바로 재생
+5. [변환 시작]: 진행률·남은 시간 표시, 언제든 [작업 취소] 가능
+6. 완료 후 [폴더에서 보기] / [재생]. 창을 내려놓고 있었다면 Windows 알림과 작업표시줄 깜빡임으로 알림
+
+**여러 파일 한꺼번에**: 목록에서 Ctrl·Shift로 여러 개를 고르거나(Ctrl+A로 전부), 여러 파일을 한 번에 끌어다 놓으면 차례로 변환합니다.
+목표 길이를 쓰면 파일마다 배속이 따로 계산되고, 하나가 실패해도 나머지는 계속 진행합니다. (앞뒤 자르기·미리보기는 파일 하나를 골랐을 때만)
+
+결과 파일명: `원본파일명_64x.mp4` (배속 선택) / `원본파일명_15s.mp4` (목표 길이 선택)
 
 ## 기본 폴더
 
@@ -40,7 +46,7 @@ TimeLapseConverter-v1.0.0\
 | 녹화 폴더 | `D:\OBS\recording` (있으면) | 내 비디오 폴더 |
 
 [설정]에서 저장 폴더·녹화 폴더 변경, 임시 파일 정리, GPU 사용 여부, FFmpeg 위치를 바꿀 수 있습니다.
-임시 파일은 앱을 종료할 때도 자동으로 정리됩니다. 설정은 `%APPDATA%\TimelapseConverter\settings.json`에 저장됩니다.
+임시 파일은 앱을 종료할 때도 자동으로 정리됩니다. 설정(마지막 배속·목표 길이 포함)은 `%APPDATA%\TimelapseConverter\settings.json`에 저장됩니다.
 
 ## 변환 방식 (배속에 따라 자동 선택)
 
@@ -48,9 +54,12 @@ TimeLapseConverter-v1.0.0\
 
 | 모드 | 조건 | FFmpeg 핵심 옵션 | 처리 속도(1080p30, GTX 1650 실측) |
 |------|------|------|------|
-| 정밀 | x16 미만 | `select=not(mod(n,N)),setpts=N/FRAME_RATE/TB` | 약 25배속 |
+| 정밀 | x16 미만 | `select=not(mod(n,N)),setpts=N/FRAME_RATE/TB` (목표 길이로 정해진 소수 배속은 `setpts=PTS/N -r 30`) | 약 25배속 |
 | 고속 | x16 이상 | `-skip_frame noref -discard noref`, `setpts=PTS/N -r 30` | 약 70배속 |
-| 키프레임 고속 | 배속/30 ≥ 키프레임 간격 (2초 간격이면 x64 이상) | `-skip_frame nokey -discard nokey`, `setpts=PTS/N -r 30` | 26분 영상 약 4초 |
+| 키프레임 고속 | 배속/30 ≥ 키프레임 간격 (2초 간격이면 x64 이상) | `-skip_frame nokey -discard nokey`, `setpts=PTS/N -r 30` | 1시간 10분 → 15초 약 2~4초 |
+
+- 앞뒤 자르기는 입력 쪽 `-ss 시작 -t 길이`로 처리합니다 (가까운 키프레임으로 바로 이동 후 정확한 위치부터).
+- 목표 길이: `배속 = 구간 길이 ÷ 목표 길이` (구간이 더 짧으면 x1).
 
 웹 버전 대비 개선점:
 - 웹 버전의 "키프레임 모드"(`noref`)는 실제로는 P-프레임까지 디코딩했음 → `nokey`로 같은 결과를 약 5배 빠르게
@@ -63,32 +72,43 @@ TimeLapseConverter-v1.0.0\
 .NET 8 SDK 필요. 버전은 `TimelapseConverter.csproj`의 `<Version>`에서 바꿉니다.
 
 ```powershell
-.\build.ps1                       # 1) dist\ 에 exe + FFmpeg 동봉 (-FfmpegDir 로 FFmpeg 위치 지정 가능)
+.\build.ps1                       # 1) dist\ 에 exe + FFmpeg 동봉 (-FfmpegDir 로 FFmpeg 위치, -OutDir 로 출력 폴더 지정)
 .\docs\guide\make-pdf.ps1         # 2) 사용 가이드 PDF (guide.html → Edge로 인쇄)
-.\package.ps1                     # 3) release\TimeLapseConverter-v<버전>-win-x64.zip
+.\package.ps1                     # 3) release\TimeLapseConverter-v<버전>-win-x64.zip (-Dist 로 빌드 폴더 지정)
 ```
 
+`dist\`의 프로그램을 켜 둔 상태면 build.ps1이 멈추고 알려 줍니다. 닫거나 `-OutDir`(예: `dist-next`)로 다른 폴더에 빌드하세요.
+
 GitHub에는 zip을 저장소 파일이 아닌 **Releases 첨부 파일**로 올립니다 (git은 파일당 100MB 제한, 릴리스 첨부는 2GB까지).
-릴리스 설명은 `release\RELEASE_NOTES_v1.0.0.md`를 붙여 넣으면 됩니다.
+릴리스 설명은 `release\RELEASE_NOTES_v<버전>.md`를 붙여 넣으면 됩니다.
 
-### 가이드 화면 캡처
+### 가이드 화면 캡처 · 동작 확인
 
-`TimelapseConverter.exe --snapshot <폴더> [--source <녹화폴더>] [--file <영상>] [--convert <배속단계0~12> <저장폴더>]`
-→ 시작/메인/드래그/진행/완료/미리보기/설정 화면을 2배 해상도 PNG로 저장하고 종료합니다 (설정 파일은 건드리지 않음).
-v1.0.0 가이드 이미지는 개인 화면이 나오지 않도록 FFmpeg로 만든 1시간짜리 "샘플 녹화 영상"(시계 화면)으로 캡처했습니다.
+```
+TimelapseConverter.exe --snapshot <폴더> [--source <녹화폴더>] [--file <영상>] [--target <초>] [--trim <시작초> <끝초>]
+                       [--convert <배속단계0~12> <저장폴더>] [--batch] [--selftest] [--notify-test]
+```
+- 시작/메인/드래그/진행/완료/미리보기/여러 파일/설정 화면을 2배 해상도 PNG로 저장하고 종료합니다 (설정 파일은 건드리지 않음).
+- `--batch`: 녹화 폴더 목록을 모두 선택한 화면 (`--convert`가 있으면 한꺼번에 변환까지)
+- `--selftest`: `--file`의 영상으로 목표 길이 칩·슬라이더·구간 입력 동작을 확인해 `selftest.txt`에 PASS/FAIL 기록
+- `--notify-test`: 완료 알림을 한 번 띄우고 결과를 `notify.txt`에 기록
+
+가이드 이미지는 개인 화면이 나오지 않도록 FFmpeg로 만든 "샘플 녹화 영상"(시계 화면)으로 캡처했습니다.
 
 ## 구조
 
 ```
-App.xaml(.cs)              앱 시작/종료 (임시 파일 정리)
-MainWindow.xaml(.cs)       메인 화면
-PreviewWindow.xaml(.cs)    미리보기 재생 창
-SettingsWindow.xaml(.cs)   설정 창
-Themes/Porcelain.xaml      색상(#F8F7F4 + 로열 블루)·컨트롤 스타일
-Services/FfmpegTools.cs    FFmpeg 탐색·영상 분석·변환 (GPU→CPU 자동 재시도)
-Services/TimelapsePlanner.cs  배속별 모드 선택, 예상 시간 계산
-Services/AppSettings.cs    설정 저장/불러오기
+App.xaml(.cs)                 앱 시작/종료 (임시 파일 정리)
+MainWindow.xaml(.cs)          메인 화면 (파일 선택·여러 파일, 배속/목표 길이, 변환 구간, 변환 실행)
+PreviewWindow.xaml(.cs)       미리보기 재생 창
+SettingsWindow.xaml(.cs)      설정 창
+Themes/Porcelain.xaml         색상(#F8F7F4 + 로열 블루)·컨트롤 스타일
+Controls/RangeBar.cs          손잡이 두 개짜리 구간 선택 막대
+Services/FfmpegTools.cs       FFmpeg 탐색·영상 분석·변환·구간 미리보기 이미지 (GPU→CPU 자동 재시도)
+Services/TimelapsePlanner.cs  배속별 모드 선택, 목표 길이→배속 계산, 예상 시간
+Services/AppSettings.cs       설정 저장/불러오기
 Services/ChildProcessGuard.cs 앱이 강제 종료돼도 FFmpeg가 남지 않게 (Job Object)
+Helpers/CompletionNotifier.cs 완료 알림 (알림 영역 풍선 알림 → Windows 알림, 작업표시줄 깜빡임)
 ```
 
 ## 라이선스

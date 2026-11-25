@@ -148,6 +148,24 @@ public sealed class FfmpegTools
         return gaps.Count == 0 ? 0 : gaps[gaps.Count / 2];
     }
 
+    /// <summary>파일 목록 표시용: 길이만 빠르게 읽는다 (실패하면 0)</summary>
+    public async Task<double> ProbeDurationAsync(string path, CancellationToken ct)
+    {
+        var r = await ProcessRunner.RunAsync(FfprobePath,
+            ["-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", path], ct);
+        return r.ExitCode == 0 && double.TryParse(r.Stdout.Trim(), NumberStyles.Float, Inv, out var d) && d > 0 ? d : 0;
+    }
+
+    /// <summary>구간 자르기 화면의 미리보기 이미지: 지정 위치의 프레임 한 장을 작은 JPG로 저장</summary>
+    public async Task<bool> ExtractFrameAsync(string path, double seconds, string output, CancellationToken ct)
+    {
+        var r = await ProcessRunner.RunAsync(FfmpegPath,
+            ["-hide_banner", "-nostdin", "-y", "-loglevel", "error",
+             "-ss", Math.Max(0, seconds).ToString("0.###", Inv), "-i", path,
+             "-frames:v", "1", "-an", "-vf", "scale=320:-2", "-q:v", "4", "-f", "image2", output], ct);
+        return r.ExitCode == 0 && IsValidOutput(output);
+    }
+
     static double ReadDouble(JsonElement root, string obj, string prop) =>
         root.TryGetProperty(obj, out var o) ? ReadNumberString(o, prop) : 0;
 
@@ -254,15 +272,21 @@ public sealed class FfmpegTools
             // -discard: 디스크에서 건너뛸 패킷을 아예 읽지 않음 / -skip_frame: 디코딩 생략
             a.AddRange(["-skip_frame", skip, "-discard", skip]);
         }
+        // 입력 쪽 -ss: 가까운 키프레임으로 바로 이동한 뒤 정확한 위치부터 처리 (앞부분 자르기)
+        if (plan.StartSeconds > 0)
+            a.AddRange(["-ss", plan.StartSeconds.ToString("0.###", Inv)]);
         if (plan.LimitSeconds is double limit)
             a.AddRange(["-t", limit.ToString("0.###", Inv)]);
 
         a.AddRange(["-i", input]);
 
-        if (skip == null)
-            a.AddRange(["-vf", $"select=not(mod(n\\,{plan.Speed})),setpts=N/FRAME_RATE/TB"]);
+        double speed = plan.Speed;
+        bool wholeSpeed = Math.Abs(speed - Math.Round(speed)) < 1e-9;
+        if (skip == null && wholeSpeed)
+            a.AddRange(["-vf", $"select=not(mod(n\\,{Math.Round(speed).ToString(Inv)})),setpts=N/FRAME_RATE/TB"]);
         else
-            a.AddRange(["-vf", $"setpts=PTS/{plan.Speed}", "-r", TimelapsePlanner.OutputFps.ToString(Inv)]);
+            // 목표 길이에 맞춘 배속(소수)은 타임스탬프를 줄인 뒤 30fps로 다시 맞춘다
+            a.AddRange(["-vf", $"setpts=PTS/{speed.ToString("0.######", Inv)}", "-r", TimelapsePlanner.OutputFps.ToString(Inv)]);
 
         a.Add("-an"); // 타임랩스라 오디오 제거
 

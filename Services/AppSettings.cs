@@ -14,6 +14,8 @@ public sealed class AppSettings
     public string? FfmpegFolder { get; set; }
     public bool UseGpu { get; set; } = true;
     public int SpeedIndex { get; set; } = 6; // x64
+    /// <summary>목표 길이(초). 값이 있으면 배속 대신 영상 길이에 맞춰 배속을 자동 계산</summary>
+    public int? TargetSeconds { get; set; }
 
     static string FilePath => Path.Combine(AppPaths.DataFolder, "settings.json");
 

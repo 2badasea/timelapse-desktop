@@ -12,6 +12,8 @@ if (-not $edge) { throw "Microsoft Edge를 찾을 수 없습니다." }
 
 $html = Join-Path $PSScriptRoot "guide.html"
 $profile = Join-Path $env:TEMP "timelapse-guide-edge"
+# 이전에 캐시된 화면 캡처(shots\*.png)가 인쇄되지 않도록 매번 새 프로필로
+if (Test-Path $profile) { Remove-Item $profile -Recurse -Force }
 if (Test-Path $Out) { Remove-Item $Out }
 
 $p = Start-Process $edge -PassThru -Wait -ArgumentList @(

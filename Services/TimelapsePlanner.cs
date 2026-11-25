@@ -23,10 +23,11 @@ public enum ConversionMode
 }
 
 public sealed record ConversionPlan(
-    int Speed,
+    double Speed,
     ConversionMode Mode,
+    double StartSeconds,       // 원본에서 처리를 시작할 위치 (앞부분 자르기)
     double SourceSeconds,      // 실제로 처리할 원본 구간 길이
-    double? LimitSeconds,      // 앞부분만 처리할 때(미리보기) 구간 길이
+    double? LimitSeconds,      // 끝까지 처리하지 않을 때(뒷부분 자르기·미리보기) 구간 길이
     double OutputSeconds,
     double EstimatedSeconds);
 
@@ -39,20 +40,23 @@ public static class TimelapsePlanner
 {
     public static readonly int[] SpeedSteps = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
 
+    /// <summary>목표 길이 선택지(초). 고르면 배속을 영상 길이에 맞춰 자동으로 계산한다.</summary>
+    public static readonly int[] TargetSteps = { 10, 15, 20, 30, 60 };
+
     // 고속/키프레임 모드의 출력 프레임레이트 (웹 버전의 -r 30과 동일)
     public const int OutputFps = 30;
 
     const int ReferenceModeMinSpeed = 16;
     const int LegacyKeyframeSpeed = 128;
 
-    public static ConversionMode ChooseMode(int speed, double keyframeInterval)
+    public static ConversionMode ChooseMode(double speed, double keyframeInterval)
     {
         if (speed < ReferenceModeMinSpeed) return ConversionMode.Full;
 
         // 출력 1프레임이 원본에서 차지하는 시간(speed/30초)이 키프레임 간격 이상이면
         // 키프레임만 읽어도 모든 출력 프레임이 새 장면으로 채워진다.
         bool keyframeEnough = keyframeInterval > 0
-            ? (double)speed / OutputFps >= keyframeInterval
+            ? speed / OutputFps >= keyframeInterval
             : speed >= LegacyKeyframeSpeed;
         return keyframeEnough ? ConversionMode.Keyframe : ConversionMode.Reference;
     }
@@ -62,11 +66,19 @@ public static class TimelapsePlanner
         SpeedSteps.Where(s => ChooseMode(s, keyframeInterval) == ConversionMode.Keyframe)
                   .Select(s => (int?)s).FirstOrDefault();
 
-    public static ConversionPlan Plan(VideoInfo video, int speed, double? limitSeconds = null)
+    /// <summary>원본 구간을 목표 길이로 줄이는 배속 (원본이 더 짧으면 x1)</summary>
+    public static double SpeedForTarget(double sourceSeconds, int targetSeconds) =>
+        Math.Max(1, sourceSeconds / targetSeconds);
+
+    /// <param name="start">처리 시작 위치(초)</param>
+    /// <param name="length">처리할 길이(초). null이면 끝까지</param>
+    public static ConversionPlan Plan(VideoInfo video, double speed, double start = 0, double? length = null)
     {
         var mode = ChooseMode(speed, video.KeyframeIntervalSec);
-        double? limit = limitSeconds is double l && l < video.DurationSec ? l : null;
-        double source = limit ?? video.DurationSec;
+        start = Math.Clamp(start, 0, Math.Max(0, video.DurationSec - 0.1));
+        double available = video.DurationSec - start;
+        double source = length is double l && l > 0 && l < available - 0.01 ? l : available;
+        double? limit = source < available - 0.01 ? source : null;
 
         // 실측 기준(GTX 1650, 1080p30): 전체 ≈ 25배속, 참조 ≈ 70배속, 키프레임 ≈ 초당 170개 처리
         double gop = video.KeyframeIntervalSec > 0 ? video.KeyframeIntervalSec : 2;
@@ -77,13 +89,14 @@ public static class TimelapsePlanner
             _ => source / 25.0,
         };
 
-        return new ConversionPlan(speed, mode, source, limit, source / speed, Math.Max(1, estimate + 1));
+        return new ConversionPlan(speed, mode, start < 0.01 ? 0 : start, source, limit, source / speed,
+            Math.Max(1, estimate + 1));
     }
 
     /// <summary>
     /// 미리보기용 원본 구간 길이. 결과가 약 8초가 되도록 잡되, 모드별 처리 시간이 너무 길어지지 않게 상한을 둔다.
     /// </summary>
-    public static double PreviewSourceSeconds(VideoInfo video, int speed)
+    public static double PreviewSourceSeconds(VideoInfo video, double speed, double available)
     {
         double cap = ChooseMode(speed, video.KeyframeIntervalSec) switch
         {
@@ -91,7 +104,7 @@ public static class TimelapsePlanner
             ConversionMode.Reference => 1200,
             _ => 300,
         };
-        return Math.Min(video.DurationSec, Math.Min(speed * 8.0, cap));
+        return Math.Min(available, Math.Min(speed * 8.0, cap));
     }
 
     public static string ModeLabel(ConversionMode mode) => mode switch
